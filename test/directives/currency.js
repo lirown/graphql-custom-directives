@@ -1,5 +1,5 @@
 import { GraphQLCurrencyDirective } from '../../src/directives/currency'
-import { testEqual, testNullEqual } from '../setup';
+import { testEqual, testNullEqual } from '../utils';
 
 import { expect } from 'chai';
 
