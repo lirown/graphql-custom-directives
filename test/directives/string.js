@@ -1,5 +1,5 @@
 import { GraphQLLowerCaseDirective, GraphQLUpperCaseDirective, GraphQLTemplateDirective, GraphQLToLowerDirective, GraphQLTrimDirective, GraphQLToUpperDirective, GraphQLDefaultToDirective } from '../../src/directives/string'
-import { testEqual, testNullEqual } from '../setup';
+import { testEqual, testNullEqual } from '../utils';
 
 import { expect } from 'chai';
 
