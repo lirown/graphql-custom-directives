@@ -1,5 +1,5 @@
 import { GraphQLDateDirective } from '../../src/directives/date'
-import { testEqual, testNullEqual } from '../setup';
+import { testEqual, testNullEqual } from '../utils';
 
 import { expect } from 'chai';
 
