@@ -3,7 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/lirown/graphql-custom-directives/badge.svg?branch=master)](https://coveralls.io/github/lirown/graphql-custom-directives?branch=master)
 [![npm version](https://badge.fury.io/js/graphql-custom-directives.svg)](https://badge.fury.io/js/graphql-custom-directives)
 [![Dependency Status](https://david-dm.org/lirown/graphql-custom-directives.svg)](https://david-dm.org/lirown/graphql-custom-directives)
-[![Known Vulnerabilities](https://snyk.io/test/github/lirown/graphql-custom-directives/1189ff2fb9272bc785097bab06579bb5771385f9/badge.svg)](https://snyk.io/test/github/lirown/graphql-custom-directives/1189ff2fb9272bc785097bab06579bb5771385f9)
+[![Known Vulnerabilities](https://snyk.io/test/github/lirown/graphql-custom-directives/e2453e0c95d82fb876c1da228920bf7966a10af8/badge.svg)](https://snyk.io/test/github/lirown/graphql-custom-directives/e2453e0c95d82fb876c1da228920bf7966a10af8)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 
 A collection of custom graphql directives created with [Moment](https://github.com/moment/moment), [Lodash](https://github.com/lodash/lodash) and [Numeral-js](https://github.com/adamwdraper/Numeral-js).
