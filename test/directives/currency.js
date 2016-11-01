@@ -1,5 +1,5 @@
 import { GraphQLCurrencyDirective } from '../../src/directives/currency'
-import { testGraphQLQueryResult } from '../utils';
+import { testEqual } from '../utils';
 
 import { expect } from 'chai';
 
@@ -31,7 +31,7 @@ describe('directives/currency', () => {
             directives = [ GraphQLCurrencyDirective],
             expected = { value: null };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result formatted currency', (done) => {
@@ -39,7 +39,7 @@ describe('directives/currency', () => {
             directives = [ GraphQLCurrencyDirective],
             expected = { value: "$10" };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result null', (done) => {
@@ -47,7 +47,7 @@ describe('directives/currency', () => {
             directives = [ GraphQLCurrencyDirective ],
             expected = { value: null };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result the original value', (done) => {
@@ -55,6 +55,6 @@ describe('directives/currency', () => {
             directives = [ GraphQLCurrencyDirective],
             expected = { value: "test" };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 });

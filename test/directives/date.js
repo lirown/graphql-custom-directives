@@ -1,5 +1,5 @@
 import { GraphQLDateDirective } from '../../src/directives/date'
-import { testGraphQLQueryResult } from '../utils';
+import { testEqual } from '../utils';
 
 import { expect } from 'chai';
 
@@ -31,7 +31,7 @@ describe('directives/date', () => {
             directives = [ GraphQLDateDirective],
             expected = { value: null };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result formatted number', (done) => {
@@ -39,7 +39,7 @@ describe('directives/date', () => {
             directives = [ GraphQLDateDirective],
             expected = { value: "01 Jan 2016 00:00" };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result formatted number with as args', (done) => {
@@ -47,7 +47,7 @@ describe('directives/date', () => {
             directives = [ GraphQLDateDirective],
             expected = { value: "2016" };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result formatted number with as args', (done) => {
@@ -55,7 +55,7 @@ describe('directives/date', () => {
             directives = [ GraphQLDateDirective],
             expected = { value: "2016" };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result formatted number with as args (days)', (done) => {
@@ -63,7 +63,7 @@ describe('directives/date', () => {
             directives = [ GraphQLDateDirective],
             expected = { value: "0 days" };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
 
@@ -72,6 +72,6 @@ describe('directives/date', () => {
             directives = [ GraphQLDateDirective],
             expected = { value: "AA" };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 });

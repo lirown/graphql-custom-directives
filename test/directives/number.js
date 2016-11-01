@@ -1,5 +1,5 @@
 import { GraphQLNumberDirective } from '../../src/directives/number'
-import { testGraphQLQueryResult } from '../utils';
+import { testEqual } from '../utils';
 
 import { expect } from 'chai';
 
@@ -31,7 +31,7 @@ describe('directives/number', () => {
             directives = [ GraphQLNumberDirective],
             expected = { value: null };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result formatted number', (done) => {
@@ -39,7 +39,7 @@ describe('directives/number', () => {
             directives = [ GraphQLNumberDirective],
             expected = { value: "10" };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result formatted number with as args', (done) => {
@@ -47,7 +47,7 @@ describe('directives/number', () => {
             directives = [ GraphQLNumberDirective],
             expected = { value: "(10)" };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result null', (done) => {
@@ -55,7 +55,7 @@ describe('directives/number', () => {
             directives = [ GraphQLNumberDirective ],
             expected = { value: null };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result original value', (done) => {
@@ -63,6 +63,6 @@ describe('directives/number', () => {
             directives = [ GraphQLNumberDirective],
             expected = { value: "test" };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 });

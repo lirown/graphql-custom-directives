@@ -19,18 +19,51 @@ npm install --save graphql-custom-directives
 ### Usage
 ```javascript
 import { 
-    GraphQLDateDirective 
+  GraphQLDateDirective 
 } from 'graphql-custom-directives/date';
 
 import { 
-    GraphQLNumberDirective 
+  GraphQLNumberDirective 
 } from 'graphql-custom-directives/number';
 
 import { 
-    GraphQLCurrencyDirective 
+  GraphQLCurrencyDirective 
 } from 'graphql-custom-directives/currency';
 
 import {
+  GraphQLLowerCaseDirective,
+  GraphQLUpperCaseDirective,
+  GraphQLCamelCaseDirective,
+  GraphQLStartCaseDirective,
+  GraphQLCapitalizeDirective,
+  GraphQLKebabCaseDirective,
+  GraphQLTrimDirective,
+  GraphQLDefaultToDirective,
+  GraphQLToLowerDirective,
+  GraphQLToUpperDirective,
+  GraphQLTemplateDirective
+} from 'graphql-custom-directives/string';
+
+const query = new GraphQLObjectType({
+   name: 'Query',
+   fields: {
+     input: {
+       type: GraphQLString,
+       args: {
+         value: {
+           type: GraphQLString
+         }
+       },
+       resolve: (source, {value}) => value
+     }
+   }
+});
+
+const schema = new GraphQLSchema({
+  directives: [
+    GraphQLDateDirective,
+    GraphQLNumberDirective,
+    GraphQLCurrencyDirective,
     GraphQLLowerCaseDirective,
     GraphQLUpperCaseDirective,
     GraphQLCamelCaseDirective,
@@ -42,49 +75,16 @@ import {
     GraphQLToLowerDirective,
     GraphQLToUpperDirective,
     GraphQLTemplateDirective
-} from 'graphql-custom-directives/string';
-
-const query = new GraphQLObjectType({
-   name: 'Query',
-   fields: {
-       input: {
-           type: GraphQLString,
-           args: {
-               value: {
-                   type: GraphQLString
-               }
-           },
-           resolve: (source, {value}) => value
-       }
-   }
-});
-
-const schema = new GraphQLSchema({
-    directives: [
-        GraphQLDateDirective,
-        GraphQLNumberDirective,
-        GraphQLCurrencyDirective,
-        GraphQLLowerCaseDirective,
-        GraphQLUpperCaseDirective,
-        GraphQLCamelCaseDirective,
-        GraphQLStartCaseDirective,
-        GraphQLCapitalizeDirective,
-        GraphQLKebabCaseDirective,
-        GraphQLTrimDirective,
-        GraphQLDefaultToDirective,
-        GraphQLToLowerDirective,
-        GraphQLToUpperDirective,
-        GraphQLTemplateDirective
-    ],
-    query
+  ],
+  query
 });
 
 applySchemaCustomDirectives(schema);
 
 graphql(schema, `{ input(value: "test") @upperCase }`)
-    .then(({ result, errors }) => {
-       console.log(result); // will print { input: "TEST }
-    });
+  .then(({ result, errors }) => {
+     console.log(result); // will print { input: "TEST }
+  });
 ```
 ### Date formatting directives
 

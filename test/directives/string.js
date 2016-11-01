@@ -1,5 +1,5 @@
 import { GraphQLLowerCaseDirective, GraphQLUpperCaseDirective, GraphQLTemplateDirective, GraphQLToLowerDirective, GraphQLTrimDirective, GraphQLToUpperDirective, GraphQLDefaultToDirective } from '../../src/directives/string'
-import { testGraphQLQueryResult } from '../utils';
+import { testEqual } from '../utils';
 
 import { expect } from 'chai';
 
@@ -30,7 +30,7 @@ describe('directives/string/lowerCase', () => {
             directives = [],
             expected = { value: null };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result lower cased string', (done) => {
@@ -38,7 +38,7 @@ describe('directives/string/lowerCase', () => {
             directives = [ GraphQLLowerCaseDirective ],
             expected = { value: "aaa" };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result empty string', (done) => {
@@ -46,7 +46,7 @@ describe('directives/string/lowerCase', () => {
             directives = [ GraphQLLowerCaseDirective ],
             expected = { value: "" };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
 });
@@ -78,7 +78,7 @@ describe('directives/string/upperCase', () => {
             directives = [],
             expected = { value: null };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result upper cased string', (done) => {
@@ -86,7 +86,7 @@ describe('directives/string/upperCase', () => {
             directives = [ GraphQLUpperCaseDirective ],
             expected = { value: "AAA" };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result empty string', (done) => {
@@ -94,7 +94,7 @@ describe('directives/string/upperCase', () => {
             directives = [ GraphQLUpperCaseDirective ],
             expected = { value: "" };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
 });
@@ -126,7 +126,7 @@ describe('directives/string/template', () => {
             directives = [],
             expected = { value: null };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result a template\'s output', (done) => {
@@ -134,7 +134,7 @@ describe('directives/string/template', () => {
             directives = [ GraphQLTemplateDirective ],
             expected = { value: "AAA - aaa " };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result a template\'s output', (done) => {
@@ -142,7 +142,7 @@ describe('directives/string/template', () => {
             directives = [ GraphQLTemplateDirective ],
             expected = { value: "AAA - aaa " };
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result a defaultTo\'s output', (done) => {
@@ -152,7 +152,7 @@ describe('directives/string/template', () => {
             input = { root: { input: null, output: null } },
             expected = { root: { input: 'N/A', output: 'N/A' } };
 
-        testGraphQLQueryResult({ directives, query, expected, input, done, schema });
+        testEqual({ directives, query, expected, input, done, schema });
     });
 
      it('expected directive to alter execution of graphql and result a template\'s and pipeline of directives', (done) => {
@@ -160,6 +160,6 @@ describe('directives/string/template', () => {
             expected = { value: 'AAA - AAA'},
             directives = [ GraphQLTemplateDirective, GraphQLToLowerDirective, GraphQLTrimDirective, GraphQLToUpperDirective, GraphQLDefaultToDirective  ];
 
-        testGraphQLQueryResult({ directives, query, expected, done });
+        testEqual({ directives, query, expected, done });
     });
 });
