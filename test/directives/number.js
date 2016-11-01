@@ -1,4 +1,4 @@
-import { GraphQLNumberDirective } from '../../src/directives/number'
+import { GraphQLNumberDirective } from '../../src/index'
 import { testEqual } from '../utils';
 
 import { expect } from 'chai';
