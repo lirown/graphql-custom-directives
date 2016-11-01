@@ -33,7 +33,7 @@ import {
   GraphQLToLowerDirective,
   GraphQLToUpperDirective,
   GraphQLTemplateDirective
-} from 'graphql-custom-directives;
+} from 'graphql-custom-directives';
 
 const query = new GraphQLObjectType({
    name: 'Query',
