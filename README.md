@@ -18,19 +18,10 @@ npm install --save graphql-custom-directives
 
 ### Usage
 ```javascript
-import { 
-  GraphQLDateDirective 
-} from 'graphql-custom-directives/date';
-
-import { 
-  GraphQLNumberDirective 
-} from 'graphql-custom-directives/number';
-
-import { 
-  GraphQLCurrencyDirective 
-} from 'graphql-custom-directives/currency';
-
 import {
+  GraphQLDateDirective,
+  GraphQLNumberDirective,
+  GraphQLCurrencyDirective,
   GraphQLLowerCaseDirective,
   GraphQLUpperCaseDirective,
   GraphQLCamelCaseDirective,
@@ -42,7 +33,7 @@ import {
   GraphQLToLowerDirective,
   GraphQLToUpperDirective,
   GraphQLTemplateDirective
-} from 'graphql-custom-directives/string';
+} from 'graphql-custom-directives';
 
 const query = new GraphQLObjectType({
    name: 'Query',

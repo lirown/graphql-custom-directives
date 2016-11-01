@@ -1,4 +1,4 @@
-import { GraphQLDateDirective } from '../../src/directives/date'
+import { GraphQLDateDirective } from '../../src/index'
 import { testEqual } from '../utils';
 
 import { expect } from 'chai';
