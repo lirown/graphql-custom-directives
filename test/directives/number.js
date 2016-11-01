@@ -1,5 +1,5 @@
 import { GraphQLNumberDirective } from '../../src/directives/number'
-import { testEqual, testNullEqual } from '../utils';
+import { testGraphQLQueryResult } from '../utils';
 
 import { expect } from 'chai';
 
@@ -27,37 +27,42 @@ describe('directives/number', () => {
 
 
     it('expected regular execution of graphql', (done) => {
-        const query = `{ input }`,
-            expected = { "input": null };
+        const query = `{ value }`,
+            directives = [ GraphQLNumberDirective],
+            expected = { value: null };
 
-        testNullEqual({ query, expected, done });
+        testGraphQLQueryResult({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result formatted number', (done) => {
-        const query = `{ input(value: "10.00") @number }`,
-            expected = { "input": "10" };
+        const query = `{ value(input: "10.00") @number }`,
+            directives = [ GraphQLNumberDirective],
+            expected = { value: "10" };
 
-        testEqual({ directive: GraphQLNumberDirective, query, expected, done });
+        testGraphQLQueryResult({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result formatted number with as args', (done) => {
-        const query = `{ input(value: "-10.00") @number(as:"(0,0)") }`,
-            expected = { "input": "(10)" };
+        const query = `{ value(input: "-10.00") @number(as:"(0,0)") }`,
+            directives = [ GraphQLNumberDirective],
+            expected = { value: "(10)" };
 
-        testEqual({ directive: GraphQLNumberDirective, query, expected, done });
+        testGraphQLQueryResult({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result null', (done) => {
-        const query = `{ input @number }`,
-            expected = { "input": null };
+        const query = `{ value @number }`,
+            directives = [ GraphQLNumberDirective ],
+            expected = { value: null };
 
-        testEqual({ directive: GraphQLNumberDirective, query, expected, done });
+        testGraphQLQueryResult({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result original value', (done) => {
-        const query = `{ input(value: "test") @number }`,
-            expected = { "input": "test" };
+        const query = `{ value(input: "test") @number }`,
+            directives = [ GraphQLNumberDirective],
+            expected = { value: "test" };
 
-        testEqual({ directive: GraphQLNumberDirective, query, expected, done });
+        testGraphQLQueryResult({ directives, query, expected, done });
     });
 });

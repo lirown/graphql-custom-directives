@@ -1,9 +1,9 @@
 import { GraphQLDateDirective } from '../../src/directives/date'
-import { testEqual, testNullEqual } from '../utils';
+import { testGraphQLQueryResult } from '../utils';
 
 import { expect } from 'chai';
 
-describe('directives/number', () => {
+describe('directives/date', () => {
 
     it('expected to have name property', () => {
         expect(GraphQLDateDirective.name).to.a('string')
@@ -27,45 +27,51 @@ describe('directives/number', () => {
 
 
     it('expected regular execution of graphql', (done) => {
-        const query = `{ input }`,
-            expected = { "input": null };
+        const query = `{ value }`,
+            directives = [ GraphQLDateDirective],
+            expected = { value: null };
 
-        testNullEqual({ query, expected, done });
+        testGraphQLQueryResult({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result formatted number', (done) => {
-        const query = `{ input(value: "2016-01-01T00:00:00") @date }`,
-            expected = { "input": "01 Jan 2016 00:00" };
+        const query = `{ value(input: "2016-01-01T00:00:00") @date }`,
+            directives = [ GraphQLDateDirective],
+            expected = { value: "01 Jan 2016 00:00" };
 
-        testEqual({ directive: GraphQLDateDirective, query, expected, done });
+        testGraphQLQueryResult({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result formatted number with as args', (done) => {
-        const query = `{ input(value: "2016-01-01T00:00:00") @date(as:"YYYY") }`,
-            expected = { "input": "2016" };
+        const query = `{ value(input: "2016-01-01T00:00:00") @date(as:"YYYY") }`,
+            directives = [ GraphQLDateDirective],
+            expected = { value: "2016" };
 
-        testEqual({ directive: GraphQLDateDirective, query, expected, done });
+        testGraphQLQueryResult({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result formatted number with as args', (done) => {
-        const query = `{ input(value: "2016-01-01T00:00:00") @date(as:"YYYY") }`,
-            expected = { "input": "2016" };
+        const query = `{ value(input: "2016-01-01T00:00:00") @date(as:"YYYY") }`,
+            directives = [ GraphQLDateDirective],
+            expected = { value: "2016" };
 
-        testEqual({ directive: GraphQLDateDirective, query, expected, done });
+        testGraphQLQueryResult({ directives, query, expected, done });
     });
 
     it('expected directive to alter execution of graphql and result formatted number with as args (days)', (done) => {
-        const query = `{ input(value: "${(new Date()).toISOString()}") @date(as:"days") }`,
-            expected = { "input": "0 days" };
+        const query = `{ value(input: "${(new Date()).toISOString()}") @date(as:"days") }`,
+            directives = [ GraphQLDateDirective],
+            expected = { value: "0 days" };
 
-        testEqual({ directive: GraphQLDateDirective, query, expected, done });
+        testGraphQLQueryResult({ directives, query, expected, done });
     });
 
 
     it('expected directive to alter execution of graphql and result the original string', (done) => {
-        const query = `{ input(value: "AA") @date }`,
-            expected = { "input": "AA" };
+        const query = `{ value(input: "AA") @date }`,
+            directives = [ GraphQLDateDirective],
+            expected = { value: "AA" };
 
-        testEqual({ directive: GraphQLDateDirective, query, expected, done });
+        testGraphQLQueryResult({ directives, query, expected, done });
     });
 });

@@ -1,135 +1,27 @@
-import { GraphQLString, GraphQLSchema, GraphQLObjectType, GraphQLNonNull, GraphQLList, graphql } from 'graphql';
+import { GraphQLString, GraphQLSchema, GraphQLObjectType, GraphQLNonNull, GraphQLList, graphql, buildSchema, printSchema } from 'graphql';
 import { applySchemaCustomDirectives } from '../src/index';
 
 import { expect } from 'chai';
 
-exports.createGraphQLQueryDeepObject = function() {
-    return new GraphQLObjectType({
-        name: 'Query',
-        fields: () => ({
-            test: {
-                type: new GraphQLObjectType({
-                    name: 'Test',
-                    fields: () => ({
-                        input: {
-                            type: GraphQLString,
-                            resolve: () => '5'
-                        },
-                        output: {
-                            type: GraphQLString,
-                            resolve: () => "1"
-                        }
-                    })
-                })
-            },
-            test2: {
-                type: new GraphQLList(new GraphQLObjectType({
-                    name: 'Test2',
-                    fields: () => ({
-                        input: {
-                            type: new GraphQLNonNull(GraphQLString)
-                        },
-                        output: {
-                            type: GraphQLString
-                        }
-                    })
-                }))
-            }
-        })
-    });
-};
+const DEFAULT_TEST_SCHEMA = `type Query { value(input: String): String } schema { query: Query }`;
+const GRAPHQL_INPUT_ARG_PREFIX_START_AT = /\(input:\s{0,}\"/g;
+const GRAPHQL_INPUT_ARG_PREFIX_END_AT = /\"/g
 
+exports.testGraphQLQueryResult = function({ directives, query, schema, input, expected, done }) {
 
-exports.createGraphQLQueryDeepObject = function() {
-    return new GraphQLObjectType({
-        name: 'Query',
-        fields: () => ({
-            test: {
-                type: new GraphQLObjectType({
-                    name: 'Test',
-                    fields: () => ({
-                        input: {
-                            type: GraphQLString,
-                            resolve: () => '5'
-                        },
-                        output: {
-                            type: GraphQLString,
-                            resolve: () => "1"
-                        }
-                    })
-                })
-            },
-            test2: {
-                type: new GraphQLList(new GraphQLObjectType({
-                    name: 'Test2',
-                    fields: () => ({
-                        input: {
-                            type: new GraphQLNonNull(GraphQLString)
-                        },
-                        output: {
-                            type: GraphQLString
-                        }
-                    })
-                }))
-            }
-        })
-    });
-};
+    let executionSchema = buildSchema(schema || DEFAULT_TEST_SCHEMA);
 
-const createGraphQLQueryVariableObject = exports.createGraphQLQueryVariableObject = function() {
-    return new GraphQLObjectType({
-        name: 'Query',
-        fields: {
-            input: {
-                type: GraphQLString,
-                args: {
-                    value: {
-                        type: GraphQLString
-                    }
-                },
-                resolve: (_, {value}) => value
-            }
-        },
-        resolve: () => { input: null }
-    })
-};
+    let root = input;
 
-const createGraphQLQueryNullObject = exports.createGraphQLQueryNullObject = function() {
-    return new GraphQLObjectType({
-        name: 'Query',
-        fields: {
-            input: {
-                type: GraphQLString,
+    if (!schema && query.includes('input:')) {
+        let value = query.split(GRAPHQL_INPUT_ARG_PREFIX_START_AT)[1].split(GRAPHQL_INPUT_ARG_PREFIX_END_AT)[0].trim();
+        root = { value };
+    }
+    executionSchema._directives = directives;
 
-                args: {
-                    value: {
-                        type: GraphQLString,
-                        defaultValue: 'N/A'
-                    }
-                }
-            }
-        }
-    })
-};
+    applySchemaCustomDirectives(executionSchema);
 
-
-exports.testNullEqual = function({ directive, query, expected, done }) {
-    return testEqual({ directive, query, expected, done, isNull: true })
-};
-
-const testEqual = exports.testEqual = function({ directive, query, expected, done, isNull=false }) {
-
-    let schema = new GraphQLSchema({
-        directives: directive instanceof Array ? directive : !directive ? [] : [
-            directive
-        ],
-        query: isNull ? createGraphQLQueryNullObject() : createGraphQLQueryVariableObject(),
-        resolve: () => {}
-    });
-
-    applySchemaCustomDirectives(schema);
-
-    graphql(schema, query, {})
+    graphql(executionSchema, query, root)
         .then(({data, errors }) => {
             if (errors) {
                 console.error(errors);
