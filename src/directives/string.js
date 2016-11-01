@@ -18,10 +18,12 @@ function createCustomDirectiveByMethod(name, method) {
             }
         } : {},
         resolve(resolve, source, { to }) {
-            if (name === 'default') {
-                return resolve().then(input => method(input, to));
-            }
-            return resolve().then(input => method(input));
+            return resolve().then(input => {
+                if (input && input instanceof Object && !(input instanceof Array) && Object.keys(input).length > 0) {
+                    Object.keys(input).map((val) => input[val] = method(input[val], to));
+                }
+                return method(input, to);
+            });
         }
     });
 }

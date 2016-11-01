@@ -18,9 +18,52 @@ npm install --save graphql-custom-directives
 
 ### Usage
 ```javascript
-import { GraphQLDateDirective } from 'graphql-custom-directives/date';
-import { GraphQLNumberDirective } from 'graphql-custom-directives/number';
+import { 
+  GraphQLDateDirective 
+} from 'graphql-custom-directives/date';
+
+import { 
+  GraphQLNumberDirective 
+} from 'graphql-custom-directives/number';
+
+import { 
+  GraphQLCurrencyDirective 
+} from 'graphql-custom-directives/currency';
+
 import {
+  GraphQLLowerCaseDirective,
+  GraphQLUpperCaseDirective,
+  GraphQLCamelCaseDirective,
+  GraphQLStartCaseDirective,
+  GraphQLCapitalizeDirective,
+  GraphQLKebabCaseDirective,
+  GraphQLTrimDirective,
+  GraphQLDefaultToDirective,
+  GraphQLToLowerDirective,
+  GraphQLToUpperDirective,
+  GraphQLTemplateDirective
+} from 'graphql-custom-directives/string';
+
+const query = new GraphQLObjectType({
+   name: 'Query',
+   fields: {
+     input: {
+       type: GraphQLString,
+       args: {
+         value: {
+           type: GraphQLString
+         }
+       },
+       resolve: (source, {value}) => value
+     }
+   }
+});
+
+const schema = new GraphQLSchema({
+  directives: [
+    GraphQLDateDirective,
+    GraphQLNumberDirective,
+    GraphQLCurrencyDirective,
     GraphQLLowerCaseDirective,
     GraphQLUpperCaseDirective,
     GraphQLCamelCaseDirective,
@@ -32,48 +75,16 @@ import {
     GraphQLToLowerDirective,
     GraphQLToUpperDirective,
     GraphQLTemplateDirective
-} from 'graphql-custom-directives/string';
-
-const query = new GraphQLObjectType({
-   name: 'Query',
-   fields: {
-       input: {
-           type: GraphQLString,
-           args: {
-               value: {
-                   type: GraphQLString
-               }
-           },
-           resolve: (source, {value}) => value
-       }
-   }
-});
-
-const schema = new GraphQLSchema({
-    directives: [
-        GraphQLDateDirective,
-        GraphQLNumberDirective,
-        GraphQLLowerCaseDirective,
-        GraphQLUpperCaseDirective,
-        GraphQLCamelCaseDirective,
-        GraphQLStartCaseDirective,
-        GraphQLCapitalizeDirective,
-        GraphQLKebabCaseDirective,
-        GraphQLTrimDirective,
-        GraphQLDefaultToDirective,
-        GraphQLToLowerDirective,
-        GraphQLToUpperDirective,
-        GraphQLTemplateDirective
-    ],
-    query
+  ],
+  query
 });
 
 applySchemaCustomDirectives(schema);
 
 graphql(schema, `{ input(value: "test") @upperCase }`)
-    .then(({ result, errors }) => {
-       console.log(result); // will print { input: "TEST }
-    });
+  .then(({ result, errors }) => {
+     console.log(result); // will print { input: "TEST }
+  });
 ```
 ### Date formatting directives
 
@@ -131,7 +142,7 @@ Adding number directive to graphql query for formatting the result using [Numera
 
 Adding string directive to graphql query for formatting the result using [Lodash](https://github.com/lodash/lodash). 
 
-- Using lowerCase directive 
+- Using lowerCase directive: 
 
 ```javascript
   query { 
@@ -158,7 +169,7 @@ Adding string directive to graphql query for formatting the result using [Lodash
   // => { input: "fooBar" }
 ```
 
-- Using startCase directive 
+- Using startCase directive: 
 
 ```javascript
   query { 
@@ -176,7 +187,7 @@ Adding string directive to graphql query for formatting the result using [Lodash
   // => { input: "Foo var" }
 ```
 
-- Using kebabCase directive 
+- Using kebabCase directive: 
 
 ```javascript
   query { 
@@ -185,7 +196,7 @@ Adding string directive to graphql query for formatting the result using [Lodash
   // => { input: "foo-bar" }
 ```
 
-- Using trim directive 
+- Using trim directive:
 
 ```javascript
   query { 
@@ -194,16 +205,16 @@ Adding string directive to graphql query for formatting the result using [Lodash
   // => { input: "foo bar" }
 ```
 
-- Using defaultTo directive:
+- Using default directive:
 
 ```javascript
   query { 
-    input @defaultTo(as:"T")
+    input @default(to:"N/A")
   }
-  // => { input: "foo bar" }
+  // => { input: "N/A" }
 ```
 
-- Using toLower directive 
+- Using toLower directive:
 
 ```javascript
   query { 
