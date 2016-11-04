@@ -32,7 +32,8 @@ import {
   GraphQLDefaultToDirective,
   GraphQLToLowerDirective,
   GraphQLToUpperDirective,
-  GraphQLTemplateDirective
+  GraphQLTemplateDirective,
+  applySchemaCustomDirectives
 } from 'graphql-custom-directives';
 
 const query = new GraphQLObjectType({
