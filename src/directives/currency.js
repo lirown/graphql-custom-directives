@@ -1,6 +1,6 @@
 import { GraphQLString } from 'graphql';
 import { DirectiveLocation } from 'graphql/type/directives';
-import { GraphQLCustomDirective } from 'graphql-custom-directive';
+import { GraphQLCustomDirective } from '../custom';
 
 import numeral from 'numeral';
 

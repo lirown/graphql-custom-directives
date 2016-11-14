@@ -1,6 +1,6 @@
 import { DirectiveLocation } from 'graphql/type/directives';
 import { GraphQLString, GraphQLNonNull } from 'graphql';
-import { GraphQLCustomDirective } from 'graphql-custom-directive';
+import { GraphQLCustomDirective } from '../custom';
 
 import { template, lowerCase, upperCase, camelCase, startCase, capitalize, kebabCase, trim, defaultTo, toLower, toUpper } from 'lodash';
 
