@@ -1,4 +1,4 @@
-import { GraphQLString } from 'graphql';
+import { GraphQLString, GraphQLBoolean } from 'graphql';
 import { DirectiveLocation } from 'graphql/type/directives';
 import { GraphQLCustomDirective } from '../custom';
 
@@ -17,12 +17,20 @@ exports.GraphQLDateDirective = new GraphQLCustomDirective({
         as: {
             type: GraphQLString,
             description: 'A format given by moment module'
+        },
+        isUnixTime: {
+            type: GraphQLBoolean,
+            description: 'If input is a 13 digit unix time'
         }
     },
-    resolve(resolve, source, { as }) {
+    resolve(resolve, source, { as, isUnixTime }) {
         return resolve().then(input => {
 
             const format = as || DEFAULT_DATE_FORMAT;
+
+            if(isUnixTime == true) {
+                return moment.utc(new Date(input).toString()).format(format);
+            }
 
             if (format.indexOf('days') !== -1 || format.indexOf('ago') !== -1) {
                 return `${moment.utc().diff(input, 'days')} ${format}`;
