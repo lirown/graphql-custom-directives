@@ -74,4 +74,15 @@ describe('directives/date', () => {
 
         testEqual({ directives, query, expected, done });
     });
+
+    it('expected directive to convert 13 digit unixtime to formatted date', (done) => {
+        const query = `{ value(input: "1479964283000") @date }`,
+            directives = [ GraphQLDateDirective],
+            expected = { value: "24 Nov 2016 05:11" };
+
+        testEqual({ directives, query, expected, done });
+
+    });
+
+
 });

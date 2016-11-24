@@ -1,4 +1,4 @@
-import { GraphQLString } from 'graphql';
+import { GraphQLString, GraphQLBoolean } from 'graphql';
 import { DirectiveLocation } from 'graphql/type/directives';
 import { GraphQLCustomDirective } from '../custom';
 
@@ -28,7 +28,11 @@ exports.GraphQLDateDirective = new GraphQLCustomDirective({
                 return `${moment.utc().diff(input, 'days')} ${format}`;
             }
 
-            if (!Date.parse(input)) {
+            if (`${input}`.length === 13) {
+                input = Number(input);
+            }
+
+            if (!Date.parse(input) && `${input}`.length !== 13) {
                 return input;
             }
 
