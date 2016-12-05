@@ -1,6 +1,7 @@
 import { GraphQLString, GraphQLBoolean } from 'graphql';
 import { DirectiveLocation } from 'graphql/type/directives';
 import { GraphQLCustomDirective } from '../custom';
+import { _ } from 'lodash';
 
 const moment = require('moment');
 
@@ -41,3 +42,27 @@ exports.GraphQLDateDirective = new GraphQLCustomDirective({
     }
 });
 
+
+exports.GraphQLTimeOffsetDirective = new GraphQLCustomDirective({
+    name: 'timeOffset',
+    description: 'Add offset (in minutes) to a 13 digit unixtime',
+    locations: [DirectiveLocation.FIELD],
+    args: {
+        offsetLocation: {
+            type: GraphQLString,
+            description: 'Path of offset in minutes within context object. e.g - "req.profile.utcOffset"'
+        }
+    },
+    resolve: function resolve(_resolve, source, _ref, context, info) {
+        var offsetMinutes = _.get(context, _ref.offsetLocation);
+        var offsetMilliseconds = offsetMinutes * 60 * 1000;
+
+        return _resolve().then(function (input) {
+
+            if (('' + input).length === 13) {
+                input  = Number(input) + offsetMilliseconds;
+                return input;
+            }
+        });
+    }
+});

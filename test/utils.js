@@ -5,12 +5,12 @@ import { expect } from 'chai';
 
 const DEFAULT_TEST_SCHEMA = `type Query { value(input: String): String } schema { query: Query }`;
 
-exports.testEqual = function({ directives, query, schema, input, passServer = false, expected, done }) {
+exports.testEqual = function({ directives, query, schema, input, passServer = false, expected, done, context }) {
 
   let executionSchema = buildSchema(schema || DEFAULT_TEST_SCHEMA);
 
   if (!schema) {
-    executionSchema._queryType._fields.value.resolve = (source, { input }) => input;
+    executionSchema._queryType._fields.value.resolve = (source, { input, context }) => input;
     if (passServer) {
       executionSchema._queryType._fields.value.directives = { duplicate: {by: 2} };
     }
@@ -20,7 +20,7 @@ exports.testEqual = function({ directives, query, schema, input, passServer = fa
 
   applySchemaCustomDirectives(executionSchema);
 
-  graphql(executionSchema, query, input)
+  graphql(executionSchema, query, input, context)
     .then(({data, errors }) => {
       if (errors) {
         console.error(errors);

@@ -1,4 +1,4 @@
-import { GraphQLDateDirective } from '../../src/index'
+import { GraphQLDateDirective, GraphQLTimeOffsetDirective } from '../../src/index'
 import { testEqual } from '../utils';
 
 import { expect } from 'chai';
@@ -84,5 +84,13 @@ describe('directives/date', () => {
 
     });
 
+    it('expected directive to add offset to 13 digit unixtime, and return 13 digit unixtime ', (done) => {
+        const query = `{ value(input: "1479964283000") @timeOffset(offsetLocation: "req.shop.utcOffset") }`,
+            directives = [ GraphQLTimeOffsetDirective],
+            expected = { value: "1479975083000" },
+            context = {req: {shop: {utcOffset: 180}}};
 
+        testEqual({ directives, query, expected, done ,context});
+
+    });
 });
