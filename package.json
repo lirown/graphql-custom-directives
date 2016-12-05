@@ -1,6 +1,6 @@
 {
   "name": "graphql-custom-directives",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Create custom graphql directives with the ability to hook the execution of graphql",
   "main": "dist/index.js",
   "scripts": {
