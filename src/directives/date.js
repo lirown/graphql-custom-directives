@@ -1,18 +1,11 @@
 import { GraphQLString, GraphQLBoolean } from 'graphql';
 import { DirectiveLocation } from 'graphql/type/directives';
 import { GraphQLCustomDirective } from '../custom';
+import { _ } from 'lodash';
 
 const moment = require('moment');
 
 const DEFAULT_DATE_FORMAT = 'DD MMM YYYY HH:mm';
-
-const extractOffset = (context, offsetLocation) => {
-    let tempContext = Object.assign({}, context);
-    for (let path of offsetLocation.split('.')){
-        tempContext = tempContext[path];
-    }
-    return tempContext;
-}
 
 exports.GraphQLDateDirective = new GraphQLCustomDirective({
     name: 'date',
@@ -52,17 +45,16 @@ exports.GraphQLDateDirective = new GraphQLCustomDirective({
 
 exports.GraphQLTimeOffsetDirective = new GraphQLCustomDirective({
     name: 'timeOffset',
-    description: 'Format the date from resolving the field by moment module',
+    description: 'Add offset (in minutes) to a 13 digit unixtime',
     locations: [DirectiveLocation.FIELD],
     args: {
         offsetLocation: {
             type: GraphQLString,
-            description: 'Path of offset in context object. e.g - "req.shop.utcOffset"'
+            description: 'Path of offset in minutes within context object. e.g - "req.profile.utcOffset"'
         }
     },
     resolve: function resolve(_resolve, source, _ref, context, info) {
-        var offsetLocation = _ref.offsetLocation;
-        var offsetMinutes = extractOffset(context, offsetLocation);
+        var offsetMinutes = _.get(context, _ref.offsetLocation);
         var offsetMilliseconds = offsetMinutes * 60 * 1000;
 
         return _resolve().then(function (input) {
