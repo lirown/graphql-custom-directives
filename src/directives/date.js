@@ -6,6 +6,14 @@ const moment = require('moment');
 
 const DEFAULT_DATE_FORMAT = 'DD MMM YYYY HH:mm';
 
+const extractOffset = (context, offsetLocation) => {
+    let tempContext = Object.assign({}, context);
+    for (let path of offsetLocation.split('.')){
+        tempContext = tempContext[path];
+    }
+    return tempContext;
+}
+
 exports.GraphQLDateDirective = new GraphQLCustomDirective({
     name: 'date',
     description:
@@ -41,3 +49,28 @@ exports.GraphQLDateDirective = new GraphQLCustomDirective({
     }
 });
 
+
+exports.GraphQLTimeOffsetDirective = new GraphQLCustomDirective({
+    name: 'timeOffset',
+    description: 'Format the date from resolving the field by moment module',
+    locations: [DirectiveLocation.FIELD],
+    args: {
+        offsetLocation: {
+            type: GraphQLString,
+            description: 'Path of offset in context object. e.g - "req.shop.utcOffset"'
+        }
+    },
+    resolve: function resolve(_resolve, source, _ref, context, info) {
+        var offsetLocation = _ref.offsetLocation;
+        var offsetMinutes = extractOffset(context, offsetLocation);
+        var offsetMilliseconds = offsetMinutes * 60 * 1000;
+
+        return _resolve().then(function (input) {
+
+            if (('' + input).length === 13) {
+                input  = Number(input) + offsetMilliseconds;
+                return input;
+            }
+        });
+    }
+});
