@@ -78,6 +78,55 @@ graphql(schema, `{ input(value: "test") @upperCase }`)
      console.log(result); // will print { input: "TEST }
   });
 ```
+
+### using with apollo
+
+is also possible
+
+```javascript
+import { makeExecutableSchema } from 'graphql-tools';
+import {
+  GraphQLDateDirective,
+  GraphQLNumberDirective,
+  GraphQLCurrencyDirective,
+  GraphQLLowerCaseDirective,
+  GraphQLUpperCaseDirective,
+  GraphQLCamelCaseDirective,
+  GraphQLStartCaseDirective,
+  GraphQLCapitalizeDirective,
+  GraphQLKebabCaseDirective,
+  GraphQLTrimDirective,
+  GraphQLDefaultToDirective,
+  GraphQLToLowerDirective,
+  GraphQLToUpperDirective,
+  GraphQLTemplateDirective,
+  applySchemaCustomDirectives
+} from 'graphql-custom-directives';
+
+let directives = [
+    GraphQLDateDirective,
+    GraphQLNumberDirective,
+    GraphQLCurrencyDirective,
+    GraphQLLowerCaseDirective,
+    GraphQLUpperCaseDirective,
+    GraphQLCamelCaseDirective,
+    GraphQLStartCaseDirective,
+    GraphQLCapitalizeDirective,
+    GraphQLKebabCaseDirective,
+    GraphQLTrimDirective,
+    GraphQLDefaultToDirective,
+    GraphQLToLowerDirective,
+    GraphQLToUpperDirective,
+    GraphQLTemplateDirective
+  ]
+
+let schema = makeExecutableSchema(...);
+
+schema._directives.push.apply(schema._directives, directives);
+applySchemaCustomDirectives(schema);
+
+```
+
 ### Date formatting directives
 
 Adding date directive to graphql query for formatting the result using [Moment](https://github.com/moment/moment).
