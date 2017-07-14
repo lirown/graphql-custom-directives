@@ -68,7 +68,7 @@ function resolveMiddlewareWrapper(resolve = defaultResolveFn, directives = {}) {
   const serverDirectives = parseSchemaDirectives(directives);
 
   return (source, args, context, info) => {
-    const directives = serverDirectives.concat(info.fieldASTs[0].directives);
+    const directives = serverDirectives.concat(info.fieldNodes[0].directives);
     const directive = directives.filter(d => DEFAULT_DIRECTIVES.indexOf(d.name.value) === -1)[0];
 
     if (!directive) {
@@ -94,17 +94,15 @@ function resolveMiddlewareWrapper(resolve = defaultResolveFn, directives = {}) {
  * of the graphql custom directives resolve execution
  */
 function wrapFieldsWithMiddleware(type, typeMet = {}) {
-  var fields = type._fields;
+  let fields = type._fields;
   typeMet[type.name] = true;
-
-  for (var label in fields) {
-    var field = fields[label] || null;
-
-    if (!typeMet[field.type.name]) {
-      if (!!field && (typeof field === 'undefined' ? 'undefined' : _typeof(field)) == 'object') {
+  for (let label in fields) {
+    let field = fields[label];
+    if (field && !typeMet[field.type.name]) {
+      if (!!field && typeof field == 'object') {
         field.resolve = resolveMiddlewareWrapper(field.resolve, field.directives);
         if (field.type._fields) {
-          wrapFieldsWithMiddleware(field.type, typeMet);
+          wrapFieldsWithMiddleware(field.type, typeMet)
         } else if (field.type.ofType && field.type.ofType._fields) {
           wrapFieldsWithMiddleware(field.type.ofType, typeMet);
         }

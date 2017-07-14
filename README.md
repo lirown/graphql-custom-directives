@@ -84,61 +84,61 @@ Adding date directive to graphql query for formatting the result using [Moment](
 
 - Using default date format:
 ```javascript
-  query { 
-    input(value: "2016-01-01T00:00:00") @date 
-  } 
+  query {
+    input(value: "2016-01-01T00:00:00") @date
+  }
   // => { input: "01 Jan 2016 00:00" }
 ```
 - Using specific moment format:
 ```javascript
-  query { 
-    input(value: "2016-01-01T00:00:00") @date(as:"YYYY") 
+  query {
+    input(value: "2016-01-01T00:00:00") @date(as:"YYYY")
   }
 // => { input: "2016" }
 ```
 - Using days ago format
 ```javascript
-  query { 
-    input(value: "${(new Date).toISOString()}") @date(as:"days ago") 
+  query {
+    input(value: "${(new Date).toISOString()}") @date(as:"days ago")
   }
-  // => { input: "0 days ago" }    
+  // => { input: "0 days ago" }
 ```
 
 ### Number formatting directives
 
-Adding number directive to graphql query for formatting the result using [Numeral-js](https://github.com/adamwdraper/Numeral-js). 
+Adding number directive to graphql query for formatting the result using [Numeral-js](https://github.com/adamwdraper/Numeral-js).
 
 - Using default format:
 ```javascript
-  query { 
-    input(value: "1500.404") @number 
+  query {
+    input(value: "1500.404") @number
   }
   // => { input: "1,500" }
-```   
+```
 - Using specific numeral format:
 ```javascript
-  query { 
-    input(value: "-1500.404") @number(as:"(0,0.00)") 
+  query {
+    input(value: "-1500.404") @number(as:"(0,0.00)")
   }
   // => { input: "(1,500.40)" }
 ```
 -  Using default currency format:
 ```javascript
-  query { 
-    input(value: "1500") @currency 
+  query {
+    input(value: "1500") @currency
   }
-  // => { input: "$1,500)" }    
+  // => { input: "$1,500)" }
 ```
 
 ### String formatting directives
 
-Adding string directive to graphql query for formatting the result using [Lodash](https://github.com/lodash/lodash). 
+Adding string directive to graphql query for formatting the result using [Lodash](https://github.com/lodash/lodash).
 
-- Using lowerCase directive: 
+- Using lowerCase directive:
 
 ```javascript
-  query { 
-    input(value: "FOO BAR") @lowerCase 
+  query {
+    input(value: "FOO BAR") @lowerCase
   }
   // => { input: "foo bar" }
 ```
@@ -146,8 +146,8 @@ Adding string directive to graphql query for formatting the result using [Lodash
 - Using upperCase directive:
 
 ```javascript
-  query { 
-    input(value: "foo bar") @upperCase 
+  query {
+    input(value: "foo bar") @upperCase
   }
   // => { input: "FOO BAR" }
 ```
@@ -155,17 +155,17 @@ Adding string directive to graphql query for formatting the result using [Lodash
 - Using camelCase directive:
 
 ```javascript
-  query { 
-    input(value: "foo bar") @camelCase 
+  query {
+    input(value: "foo bar") @camelCase
   }
   // => { input: "fooBar" }
 ```
 
-- Using startCase directive: 
+- Using startCase directive:
 
 ```javascript
-  query { 
-    input(value: "foo bar") @startCase 
+  query {
+    input(value: "foo bar") @startCase
   }
   // => { input: "Foo Bar" }
 ```
@@ -173,17 +173,17 @@ Adding string directive to graphql query for formatting the result using [Lodash
 - Using capitalize directive:
 
 ```javascript
-  query { 
-    input(value: "foo bar") @capitalize 
+  query {
+    input(value: "foo bar") @capitalize
   }
   // => { input: "Foo var" }
 ```
 
-- Using kebabCase directive: 
+- Using kebabCase directive:
 
 ```javascript
-  query { 
-    input(value: "foo bar") @kebabCase 
+  query {
+    input(value: "foo bar") @kebabCase
   }
   // => { input: "foo-bar" }
 ```
@@ -191,8 +191,8 @@ Adding string directive to graphql query for formatting the result using [Lodash
 - Using trim directive:
 
 ```javascript
-  query { 
-    input(value: "  foo bar  ") @trim 
+  query {
+    input(value: "  foo bar  ") @trim
   }
   // => { input: "foo bar" }
 ```
@@ -200,7 +200,7 @@ Adding string directive to graphql query for formatting the result using [Lodash
 - Using default directive:
 
 ```javascript
-  query { 
+  query {
     input @default(to:"N/A")
   }
   // => { input: "N/A" }
@@ -209,8 +209,8 @@ Adding string directive to graphql query for formatting the result using [Lodash
 - Using toLower directive:
 
 ```javascript
-  query { 
-    input(value: "FOO BAR") @toLower 
+  query {
+    input(value: "FOO BAR") @toLower
   }
   // => { input: "foo bar" }
 ```
@@ -218,8 +218,8 @@ Adding string directive to graphql query for formatting the result using [Lodash
 - Using toUpper directive:
 
 ```javascript
-  query { 
-    input(value: "foo bar") @toUpper 
+  query {
+    input(value: "foo bar") @toUpper
   }
   // => { input: "FOO BAR" }
 ```
@@ -227,7 +227,7 @@ Adding string directive to graphql query for formatting the result using [Lodash
 - Using template directive:
 
 ```javascript
-  query { 
+  query {
     input(value: "foo bar") @template(as:"${input} ${toUpper(input)}")
   }
   // => { input: "foo bar FOO BAR" }
@@ -236,7 +236,7 @@ Adding string directive to graphql query for formatting the result using [Lodash
 - Using template together with trim and toUpper directives:
 
 ```javascript
-  query { 
+  query {
     input(value: "  foo bar   ") @trim @template(as:"${input} ${input}") @toUpper
   }
   // => { input: "FOO BAR FOO BAR" }
