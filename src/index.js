@@ -1,33 +1,33 @@
 import {
-	GraphQLCustomDirective,
-	applySchemaCustomDirectives
+  GraphQLCustomDirective,
+  applySchemaCustomDirectives
 } from './custom';
 
 import {
-    GraphQLDateDirective,
-	GraphQLTimeOffsetDirective
+  GraphQLDateDirective,
+  GraphQLTimeOffsetDirective
 } from './directives/date';
 
 import {
-    GraphQLNumberDirective
+  GraphQLNumberDirective
 } from './directives/number';
 
 import {
-    GraphQLCurrencyDirective
+  GraphQLCurrencyDirective
 } from './directives/currency';
 
 import {
-    GraphQLLowerCaseDirective,
-    GraphQLUpperCaseDirective,
-    GraphQLCamelCaseDirective,
-    GraphQLStartCaseDirective,
-    GraphQLCapitalizeDirective,
-    GraphQLKebabCaseDirective,
-    GraphQLTrimDirective,
-    GraphQLDefaultToDirective,
-    GraphQLToLowerDirective,
-    GraphQLToUpperDirective,
-    GraphQLTemplateDirective
+  GraphQLLowerCaseDirective,
+  GraphQLUpperCaseDirective,
+  GraphQLCamelCaseDirective,
+  GraphQLStartCaseDirective,
+  GraphQLCapitalizeDirective,
+  GraphQLKebabCaseDirective,
+  GraphQLTrimDirective,
+  GraphQLDefaultToDirective,
+  GraphQLToLowerDirective,
+  GraphQLToUpperDirective,
+  GraphQLTemplateDirective
 } from './directives/string';
 
 exports.GraphQLCustomDirective = GraphQLCustomDirective;
