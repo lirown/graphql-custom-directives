@@ -69,7 +69,7 @@ function resolveMiddlewareWrapper(resolve = defaultResolveFn, directives = {}) {
   const serverDirectives = parseSchemaDirectives(directives);
 
   return (source, args, context, info) => {
-    const directives = serverDirectives.concat(info.fieldNodes[0].directives);
+    const directives = serverDirectives.concat((info.fieldASTs || info.fieldNodes)[0].directives);
     const directive = directives.filter(d => DEFAULT_DIRECTIVES.indexOf(d.name.value) === -1)[0];
 
     if (!directive) {
