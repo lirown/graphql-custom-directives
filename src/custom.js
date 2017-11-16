@@ -136,6 +136,6 @@ exports.applySchemaCustomDirectives = function (schema) {
   }
 
   wrapFieldsWithMiddleware(schema._queryType);
-
+  wrapFieldsWithMiddleware(schema._mutationType);
   return true;
 };
