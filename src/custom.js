@@ -95,6 +95,10 @@ function resolveMiddlewareWrapper(resolve = defaultResolveFn, directives = {}) {
  * of the graphql custom directives resolve execution
  */
 function wrapFieldsWithMiddleware(type, typeMet = {}) {
+  if(!type){
+    return;
+  }
+
   let fields = type._fields;
   typeMet[type.name] = true;
   for (let label in fields) {
