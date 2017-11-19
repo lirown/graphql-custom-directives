@@ -79,7 +79,7 @@ graphql(schema, `{ input(value: "test") @upperCase }`)
   });
 ```
 
-### using with apollo
+### Using with apollo
 
 is also possible
 
