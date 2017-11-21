@@ -94,7 +94,7 @@ function resolveMiddlewareWrapper(resolve = defaultResolveFn, directives = {}) {
  * Scanning the shema and wrapping the resolve of each field with the support
  * of the graphql custom directives resolve execution
  */
-function wrapFieldsWithMiddleware(type, typeMet = {}, deepWrap = true) {
+function wrapFieldsWithMiddleware(type, deepWrap = true, typeMet = {}) {
   if(!type){
     return;
   }
@@ -107,9 +107,9 @@ function wrapFieldsWithMiddleware(type, typeMet = {}, deepWrap = true) {
       if (!!field && typeof field == 'object') {
         field.resolve = resolveMiddlewareWrapper(field.resolve, field.directives);
         if (field.type._fields && deepWrap) {
-          wrapFieldsWithMiddleware(field.type, typeMet, deepWrap)
+          wrapFieldsWithMiddleware(field.type, deepWrap, typeMet)
         } else if (field.type.ofType && field.type.ofType._fields && deepWrap) {
-          wrapFieldsWithMiddleware(field.type.ofType, typeMet, deepWrap);
+          wrapFieldsWithMiddleware(field.type.ofType, deepWrap, typeMet);
         }
       }
     }
