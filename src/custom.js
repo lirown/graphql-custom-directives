@@ -94,7 +94,7 @@ function resolveMiddlewareWrapper(resolve = defaultResolveFn, directives = {}) {
  * Scanning the shema and wrapping the resolve of each field with the support
  * of the graphql custom directives resolve execution
  */
-function wrapFieldsWithMiddleware(type, typeMet = {}) {
+function wrapFieldsWithMiddleware(type, typeMet = {}, deepWrap = true) {
   if(!type){
     return;
   }
@@ -106,10 +106,10 @@ function wrapFieldsWithMiddleware(type, typeMet = {}) {
     if (field && !typeMet[field.type.name]) {
       if (!!field && typeof field == 'object') {
         field.resolve = resolveMiddlewareWrapper(field.resolve, field.directives);
-        if (field.type._fields) {
-          wrapFieldsWithMiddleware(field.type, typeMet)
-        } else if (field.type.ofType && field.type.ofType._fields) {
-          wrapFieldsWithMiddleware(field.type.ofType, typeMet);
+        if (field.type._fields && deepWrap) {
+          wrapFieldsWithMiddleware(field.type, typeMet, deepWrap)
+        } else if (field.type.ofType && field.type.ofType._fields && deepWrap) {
+          wrapFieldsWithMiddleware(field.type.ofType, typeMet, deepWrap);
         }
       }
     }
@@ -140,7 +140,7 @@ exports.applySchemaCustomDirectives = function (schema) {
   }
 
   wrapFieldsWithMiddleware(schema._queryType);
-  wrapFieldsWithMiddleware(schema._mutationType);
+  wrapFieldsWithMiddleware(schema._mutationType, false);
 
   return true;
 };
