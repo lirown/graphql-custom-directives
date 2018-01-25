@@ -1,6 +1,6 @@
 import { GraphQLCustomDirective, applySchemaCustomDirectives } from '../src/index';
 import { GraphQLInt, GraphQLSchema, GraphQLObjectType, GraphQLNonNull, GraphQLList, graphql, buildSchema } from 'graphql';
-import { DirectiveLocation } from 'graphql/type/directives';
+import { DirectiveLocation } from 'graphql/language/directiveLocation';
 import { createGraphQLQueryDeepObject, testEqual, testNullEqual } from './utils';
 
 import { expect } from 'chai';
