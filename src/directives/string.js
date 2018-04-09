@@ -1,4 +1,4 @@
-import { DirectiveLocation } from 'graphql/type/directives';
+import { DirectiveLocation } from 'graphql/language/directiveLocation';
 import { GraphQLString, GraphQLNonNull } from 'graphql';
 import { GraphQLCustomDirective } from '../custom';
 
