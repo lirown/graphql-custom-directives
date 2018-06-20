@@ -7,21 +7,21 @@ const DEFAULT_TEST_SCHEMA = `type Query { value(input: String): String } schema 
 
 const _runQuery = function ({ directives, query, schema, input, passServer = false, done, context }) {
 
-    let executionSchema = buildSchema(schema || DEFAULT_TEST_SCHEMA);
+  let executionSchema = buildSchema(schema || DEFAULT_TEST_SCHEMA);
 
-    if (!schema) {
-        executionSchema._queryType._fields.value.resolve = (source, {input, context}) => input;
-        if (passServer) {
-            executionSchema._queryType._fields.value.directives = {duplicate: {by: 2}};
-        }
+  if (!schema) {
+    executionSchema._queryType._fields.value.resolve = (source, {input, context}) => input;
+    if (passServer) {
+      executionSchema._queryType._fields.value.directives = {duplicate: {by: 2}};
     }
+  }
 
-    if (directives)
-        executionSchema._directives = executionSchema._directives.concat(directives);
+  if (directives)
+    executionSchema._directives = executionSchema._directives.concat(directives);
 
-    applySchemaCustomDirectives(executionSchema);
+  applySchemaCustomDirectives(executionSchema);
 
-    return graphql(executionSchema, query, input, context)
+  return graphql(executionSchema, query, input, context)
 }
 
 exports.testEqual = function({ directives, query, schema, input, passServer = false, expected, done, context }) {
