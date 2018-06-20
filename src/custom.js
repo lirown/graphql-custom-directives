@@ -77,7 +77,7 @@ function resolveMiddlewareWrapper(resolve = defaultResolveFn, directives = {}) {
     }
 
     let defer = resolveWithDirective(() => Promise.resolve(resolve(source, args, context, info)), source, directive, context, info);
-    defer.catch(e=> {resolveWithDirective(() => Promise.reject(e), source, directive, context, info)})
+    defer.catch(e => {resolveWithDirective(() => Promise.reject(e), source, directive, context, info)})
 
     if (directives.length <= 1) {
       return defer;
@@ -85,7 +85,7 @@ function resolveMiddlewareWrapper(resolve = defaultResolveFn, directives = {}) {
 
     for (let directiveNext of directives.slice(1)) {
       defer = defer.then(result => resolveWithDirective(() => Promise.resolve(result), source, directiveNext, context, info));
-      defer.catch(e=> resolveWithDirective(() => Promise.reject(e), source, directiveNext, context, info)});
+      defer.catch(e => {resolveWithDirective(() => Promise.reject(e), source, directiveNext, context, info)});
     }
 
     return defer;
