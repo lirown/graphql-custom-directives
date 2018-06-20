@@ -1,11 +1,11 @@
 import { GraphQLCustomDirective, applySchemaCustomDirectives } from '../src/index';
 import { GraphQLInt, GraphQLSchema, GraphQLObjectType, GraphQLNonNull, GraphQLList, graphql, buildSchema } from 'graphql';
 import { DirectiveLocation } from 'graphql/language/directiveLocation';
-import { createGraphQLQueryDeepObject, testEqual, testNullEqual } from './utils';
+import { createGraphQLQueryDeepObject, testEqual, testNullEqual, runQuery } from './utils';
 
 import { expect } from 'chai';
 
-let GraphQLTestDirective, schema;
+let GraphQLTestDirective, GraphQLTestDirectiveTrows, GraphQLTestDirectiveCatch, errors, schema;
 
 
 describe('GraphQLCustomDirective', () => {
@@ -41,6 +41,35 @@ describe('GraphQLCustomDirective', () => {
         });
       }
     });
+    GraphQLTestDirectiveTrows = new GraphQLCustomDirective({
+        name: 'throws',
+        description: 'throws an error after promise is resolved',
+        locations: [
+          DirectiveLocation.FIELD
+        ],
+        resolve: function (resolve, source, { by }, schema, info) {
+          return resolve().then(() => {
+              throw 'Test Error'
+          });
+        }
+    })
+
+    GraphQLTestDirectiveCatch = new GraphQLCustomDirective({
+        name: 'catch',
+        description: 'catch error and store it locally',
+        locations: [
+          DirectiveLocation.FIELD
+        ],
+        resolve: function (resolve, source, { by }, schema, info) {
+          return resolve().then(result => {
+              return result
+          }).catch((e)=> {
+              errors.push(e)
+          });
+        }
+    })
+
+    errors = []
   });
 
   it('expected to have name property', () => {
@@ -105,6 +134,21 @@ describe('GraphQLCustomDirective', () => {
       expected = { "value": null };
 
     testEqual({ directives, query, expected, done });
+  });
+
+  it('expected directive catch error that was thrown', (done) => {
+    expect(errors.length).to.equal(0)
+    const query = `{ value(input: "test") @duplicate @throws @catch }`,
+          passServer = true,
+          directives = [GraphQLTestDirective, GraphQLTestDirectiveTrows, GraphQLTestDirectiveCatch];
+
+    runQuery({ directives, query, done, passServer })
+    .then(() => {
+        done(`Expected to enter .catch function`)
+    }).catch(() => {
+      expect(errors.length).to.equal(1)
+      done()
+    })
   });
 
 });
