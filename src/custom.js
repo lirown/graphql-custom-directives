@@ -10,54 +10,54 @@ const DEFAULT_DIRECTIVES = ['skip', 'include'];
  * of calling that function.
  */
 function defaultResolveFn(source, args, context, info) {
-  var fieldName = info.fieldName;
-  // ensure source is a value for which property access is acceptable.
-  if (typeof source === 'object' || typeof source === 'function') {
-    return typeof source[fieldName] === 'function' ? source[fieldName]() : source[fieldName];
-  }
+    var fieldName = info.fieldName;
+    // ensure source is a value for which property access is acceptable.
+    if (typeof source === 'object' || typeof source === 'function') {
+        return typeof source[fieldName] === 'function' ? source[fieldName]() : source[fieldName];
+    }
 }
 
 /**
  * resolving field using directive resolver
  */
 function resolveWithDirective(resolve, source, directive, context, info) {
-  source = source || (((info || {}).variableValues || {}).input_0) || {};
-  let directiveConfig = info.schema._directives.filter(d => directive.name.value === d.name)[0];
+    source = source || (((info || {}).variableValues || {}).input_0) || {};
+    let directiveConfig = info.schema._directives.filter(d => directive.name.value === d.name)[0];
 
-  let args = {};
+    let args = {};
 
-  for (let arg of directive.arguments) {
-    args[arg.name.value] = arg.value.value;
-  }
+    for (let arg of directive.arguments) {
+        args[arg.name.value] = arg.value.value;
+    }
 
-  return directiveConfig.resolve(resolve, source, args, context, info);
+    return directiveConfig.resolve(resolve, source, args, context, info);
 };
 
 /**
  * parse directives from a schema defenition form them as graphql directive structure
  */
 function parseSchemaDirectives(directives) {
-  let schemaDirectives = [];
+    let schemaDirectives = [];
 
-  if (!directives || !(directives instanceof Object) || Object.keys(directives).length === 0) {
-    return [];
-  }
-
-  for (let directiveName in directives) {
-    let argsList = [], args = '';
-
-    Object.keys(directives[directiveName]).map(key => {
-      argsList.push(`${key}:"${directives[directiveName][key]}"`)
-    });
-
-    if (argsList.length > 0) {
-      args = `(${argsList.join(',')})`;
+    if (!directives || !(directives instanceof Object) || Object.keys(directives).length === 0) {
+        return [];
     }
 
-    schemaDirectives.push(`@${directiveName}${args}`);
-  }
+    for (let directiveName in directives) {
+        let argsList = [], args = '';
 
-  return parse(`{ a: String ${schemaDirectives.join(' ')} }`).definitions[0].selectionSet.selections[0].directives;
+        Object.keys(directives[directiveName]).map(key => {
+            argsList.push(`${key}:"${directives[directiveName][key]}"`)
+        });
+
+        if (argsList.length > 0) {
+            args = `(${argsList.join(',')})`;
+        }
+
+        schemaDirectives.push(`@${directiveName}${args}`);
+    }
+
+    return parse(`{ a: String ${schemaDirectives.join(' ')} }`).definitions[0].selectionSet.selections[0].directives;
 };
 
 /**
@@ -66,28 +66,34 @@ function parseSchemaDirectives(directives) {
  * the original resolve of the field
  */
 function resolveMiddlewareWrapper(resolve = defaultResolveFn, directives = {}) {
-  const serverDirectives = parseSchemaDirectives(directives);
+    const serverDirectives = parseSchemaDirectives(directives);
 
-  return (source, args, context, info) => {
-    const directives = serverDirectives.concat((info.fieldASTs || info.fieldNodes)[0].directives);
-    const directive = directives.filter(d => DEFAULT_DIRECTIVES.indexOf(d.name.value) === -1)[0];
+    return (source, args, context, info) => {
+        const directives = serverDirectives.concat((info.fieldASTs || info.fieldNodes)[0].directives);
+        const directive = directives.filter(d => DEFAULT_DIRECTIVES.indexOf(d.name.value) === -1)[0];
 
-    if (!directive) {
-      return resolve(source, args, context, info);
-    }
+        if (!directive) {
+            return resolve(source, args, context, info);
+        }
 
-    let defer = resolveWithDirective(() => Promise.resolve(resolve(source, args, context, info)), source, directive, context, info);
+        let defer = resolveWithDirective(() => Promise.resolve(resolve(source, args, context, info)), source, directive, context, info);
+        defer.catch(e=> {
+            resolveWithDirective(() => Promise.reject(e), source, directive, context, info);
+        })
 
-    if (directives.length <= 1) {
-      return defer;
-    }
+        if (directives.length <= 1) {
+            return defer;
+        }
 
-    for (let directiveNext of directives.slice(1)) {
-      defer = defer.then(result => resolveWithDirective(() => Promise.resolve(result), source, directiveNext, context, info));
-    }
+        for (let directiveNext of directives.slice(1)) {
+            defer = defer.then(result => resolveWithDirective(() => Promise.resolve(result), source, directiveNext, context, info));
+            defer.catch(e=> {
+                resolveWithDirective(() => Promise.reject(e), source, directiveNext, context, info);
+            })
+        }
 
-    return defer;
-  };
+        return defer;
+    };
 };
 
 /**
@@ -95,25 +101,25 @@ function resolveMiddlewareWrapper(resolve = defaultResolveFn, directives = {}) {
  * of the graphql custom directives resolve execution
  */
 function wrapFieldsWithMiddleware(type, deepWrap = true, typeMet = {}) {
-  if(!type){
-    return;
-  }
-
-  let fields = type._fields;
-  typeMet[type.name] = true;
-  for (let label in fields) {
-    let field = fields[label];
-    if (field && !typeMet[field.type.name]) {
-      if (!!field && typeof field == 'object') {
-        field.resolve = resolveMiddlewareWrapper(field.resolve, field.directives);
-        if (field.type._fields && deepWrap) {
-          wrapFieldsWithMiddleware(field.type, deepWrap, typeMet)
-        } else if (field.type.ofType && field.type.ofType._fields && deepWrap) {
-          wrapFieldsWithMiddleware(field.type.ofType, deepWrap, typeMet);
-        }
-      }
+    if(!type){
+        return;
     }
-  }
+
+    let fields = type._fields;
+    typeMet[type.name] = true;
+    for (let label in fields) {
+        let field = fields[label];
+        if (field && !typeMet[field.type.name]) {
+            if (!!field && typeof field == 'object') {
+                field.resolve = resolveMiddlewareWrapper(field.resolve, field.directives);
+                if (field.type._fields && deepWrap) {
+                    wrapFieldsWithMiddleware(field.type, deepWrap, typeMet)
+                } else if (field.type.ofType && field.type.ofType._fields && deepWrap) {
+                    wrapFieldsWithMiddleware(field.type.ofType, deepWrap, typeMet);
+                }
+            }
+        }
+    }
 }
 
 /**
@@ -121,13 +127,13 @@ function wrapFieldsWithMiddleware(type, deepWrap = true, typeMet = {}) {
  * function for altering the execution of the graphql
  */
 exports.GraphQLCustomDirective = function (config) {
-  const directive = new GraphQLDirective(config);
+    const directive = new GraphQLDirective(config);
 
-  if (config.resolve) {
-    directive.resolve = config.resolve;
-  }
+    if (config.resolve) {
+        directive.resolve = config.resolve;
+    }
 
-  return directive;
+    return directive;
 };
 
 /**
@@ -135,12 +141,12 @@ exports.GraphQLCustomDirective = function (config) {
  */
 exports.applySchemaCustomDirectives = function (schema) {
 
-  if (!(schema instanceof GraphQLSchema)) {
-    throw new Error('Schema must be instanceof GraphQLSchema');
-  }
+    if (!(schema instanceof GraphQLSchema)) {
+        throw new Error('Schema must be instanceof GraphQLSchema');
+    }
 
-  wrapFieldsWithMiddleware(schema._queryType);
-  wrapFieldsWithMiddleware(schema._mutationType, false);
+    wrapFieldsWithMiddleware(schema._queryType);
+    wrapFieldsWithMiddleware(schema._mutationType, false);
 
-  return true;
+    return true;
 };
