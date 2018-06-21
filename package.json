@@ -35,7 +35,7 @@
   "dependencies": {
     "moment": "^2.15.1",
     "numeral": "^2.0.6",
-    "lodash": "^4.16.4"
+    "lodash": "^4.17.5"
   },
   "peerDependencies": {
     "graphql": "*"
