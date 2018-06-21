@@ -158,7 +158,13 @@ function wrapFieldsWithMiddleware(type, deepWrap = true, typeMet = {}) {
         if (field.type._fields && deepWrap) {
           wrapFieldsWithMiddleware(field.type, deepWrap, typeMet);
         } else if (field.type.ofType && field.type.ofType._fields && deepWrap) {
-          wrapFieldsWithMiddleware(field.type.ofType, deepWrap, typeMet);
+          let child = field.type;
+          while (child.ofType) {
+            child = child.ofType;
+          }
+          if (child._fields) {
+            wrapFieldsWithMiddleware(child._fields);
+          }
         }
       }
     }
