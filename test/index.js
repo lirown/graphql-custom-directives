@@ -183,4 +183,11 @@ describe('applySchemaCustomDirectives', () => {
 
     expect(applySchemaCustomDirectives(executionSchema)).to.eql(true);
   });
+  
+  it('expected to apply custom directives to schema with recursive nested object', () => {
+    let schema = `type Test { input: String!, output: String, children:[Test] } type Query { test1: Test, test2: [Test] } schema { query: Query }`;
+    let executionSchema = buildSchema(schema);
+
+    expect(applySchemaCustomDirectives(executionSchema)).to.eql(true);
+  });
 });
