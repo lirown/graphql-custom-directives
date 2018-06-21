@@ -1,20 +1,13 @@
-import {
-  GraphQLCustomDirective,
-  applySchemaCustomDirectives
-} from './custom';
+import {GraphQLCustomDirective, applySchemaCustomDirectives} from './custom';
 
 import {
   GraphQLDateDirective,
-  GraphQLTimeOffsetDirective
+  GraphQLTimeOffsetDirective,
 } from './directives/date';
 
-import {
-  GraphQLNumberDirective
-} from './directives/number';
+import {GraphQLNumberDirective} from './directives/number';
 
-import {
-  GraphQLCurrencyDirective
-} from './directives/currency';
+import {GraphQLCurrencyDirective} from './directives/currency';
 
 import {
   GraphQLLowerCaseDirective,
@@ -27,7 +20,7 @@ import {
   GraphQLDefaultToDirective,
   GraphQLToLowerDirective,
   GraphQLToUpperDirective,
-  GraphQLTemplateDirective
+  GraphQLTemplateDirective,
 } from './directives/string';
 
 exports.GraphQLCustomDirective = GraphQLCustomDirective;
