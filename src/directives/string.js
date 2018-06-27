@@ -1,20 +1,8 @@
-import {DirectiveLocation} from 'graphql/language/directiveLocation';
-import {GraphQLString, GraphQLNonNull} from 'graphql';
-import {GraphQLCustomDirective} from '../custom';
+import { DirectiveLocation } from './directiveLocation';
+import { GraphQLString, GraphQLNonNull } from 'graphql';
+import { GraphQLCustomDirective } from '../custom';
 
-import {
-  template,
-  lowerCase,
-  upperCase,
-  camelCase,
-  startCase,
-  capitalize,
-  kebabCase,
-  trim,
-  defaultTo,
-  toLower,
-  toUpper,
-} from 'lodash';
+import { template, lowerCase, upperCase, camelCase, startCase, capitalize, kebabCase, trim, defaultTo, toLower, toUpper } from 'lodash';
 
 function createCustomDirectiveByMethod(name, method) {
   return new GraphQLCustomDirective({
