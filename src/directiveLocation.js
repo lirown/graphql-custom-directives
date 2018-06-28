@@ -5,6 +5,7 @@ let DirectiveLocation;
 try {
   DirectiveLocation = require('graphql/language/directiveLocation')
 } catch (e) {
+  /* istanbul ignore next */
   DirectiveLocation = require('graphql/type/directives')
 }
 
