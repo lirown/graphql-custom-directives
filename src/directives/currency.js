@@ -1,5 +1,5 @@
 import {GraphQLString} from 'graphql';
-import {DirectiveLocation} from 'graphql/language/directiveLocation';
+import {DirectiveLocation} from '../directiveLocation';
 import {GraphQLCustomDirective} from '../custom';
 
 import numeral from 'numeral';

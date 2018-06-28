@@ -99,6 +99,7 @@ function resolveMiddlewareWrapper(resolve = defaultResolveFn, directives = {}) {
     );
     defer.catch(e =>
       resolveWithDirective(
+        /* istanbul ignore next */
         () => Promise.reject(e),
         source,
         directive,

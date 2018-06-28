@@ -1,5 +1,5 @@
 import {GraphQLString, GraphQLBoolean} from 'graphql';
-import {DirectiveLocation} from 'graphql/language/directiveLocation';
+import {DirectiveLocation} from '../directiveLocation';
 import {GraphQLCustomDirective} from '../custom';
 import {_} from 'lodash';
 
