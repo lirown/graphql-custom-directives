@@ -141,11 +141,11 @@ function resolveMiddlewareWrapper(resolve = defaultResolveFn, directives = {}) {
  * Scanning the shema and wrapping the resolve of each field with the support
  * of the graphql custom directives resolve execution
  */
-function wrapFieldsWithMiddleware(type, deepWrap = true, typeMet = {}) {
+function wrapFieldsWithMiddleware(type, deepWrap = true, typeMet = {}, level) {
   if (!type) {
     return;
   }
-
+  level = level || 1;
   let fields = type._fields;
   typeMet[type.name] = true;
   for (let label in fields) {
@@ -157,9 +157,10 @@ function wrapFieldsWithMiddleware(type, deepWrap = true, typeMet = {}) {
           field.directives,
         );
         if (field.type._fields && deepWrap) {
-          wrapFieldsWithMiddleware(field.type, deepWrap, typeMet);
+          wrapFieldsWithMiddleware(field.type, deepWrap, typeMet, level);
         } else if (field.type.ofType && field.type.ofType._fields && deepWrap) {
-          wrapFieldsWithMiddleware(field.type.ofType, deepWrap, typeMet);
+          if (level >= 6) continue
+          wrapFieldsWithMiddleware(field.type.ofType, deepWrap, typeMet, ++level);
         }
       }
     }
