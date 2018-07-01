@@ -159,8 +159,15 @@ function wrapFieldsWithMiddleware(type, deepWrap = true, typeMet = {}, level) {
         if (field.type._fields && deepWrap) {
           wrapFieldsWithMiddleware(field.type, deepWrap, typeMet, level);
         } else if (field.type.ofType && field.type.ofType._fields && deepWrap) {
-          if (level >= 6) continue
-          wrapFieldsWithMiddleware(field.type.ofType, deepWrap, typeMet, ++level);
+          if (level >= 6) {
+            continue;
+          }
+          wrapFieldsWithMiddleware(
+            field.type.ofType,
+            deepWrap,
+            typeMet,
+            ++level,
+          );
         }
       }
     }
