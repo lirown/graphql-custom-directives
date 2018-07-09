@@ -158,7 +158,7 @@ function wrapFieldsWithMiddleware(type, deepWrap = true, typeMet = {}, level = 1
         if (field.type._fields && deepWrap) {
           wrapFieldsWithMiddleware(field.type, deepWrap, typeMet, level);
         } else if (field.type.ofType && field.type.ofType._fields && deepWrap) {
-          if (level >= 12) {
+          if (level >= 24) {
             continue;
           }
           wrapFieldsWithMiddleware(
