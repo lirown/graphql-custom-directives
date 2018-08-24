@@ -36,7 +36,7 @@ const query = new GraphQLObjectType({
 });
 
 const schema = new GraphQLSchema({
-  directives: Object.values(GraphQLCustomDirectives),
+  directives: GraphQLCustomDirectives,
   query
 });
 
@@ -56,14 +56,14 @@ import GraphQLCustomDirectives, { applySchemaCustomDirectives } from 'graphql-cu
 
 let schema = makeExecutableSchema(...);
 
-schema._directives.push(...Object.values(GraphQLCustomDirectives));
+schema._directives.push(...GraphQLCustomDirectives);
 applySchemaCustomDirectives(schema);
 ```
 
 ### Available Directives
 
 ```javascript
-// Import All Directives
+// Import Array pf All Directives
 import GraphQLCustomDirectives from 'graphql-custom-directives';
 
 // Import Individual Directives
