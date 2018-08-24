@@ -1,5 +1,3 @@
-import {GraphQLCustomDirective, applySchemaCustomDirectives} from './custom';
-
 import {
   GraphQLDateDirective,
   GraphQLTimeOffsetDirective,
@@ -23,23 +21,45 @@ import {
   GraphQLTemplateDirective,
 } from './directives/string';
 
-exports.GraphQLCustomDirective = GraphQLCustomDirective;
-exports.applySchemaCustomDirectives = applySchemaCustomDirectives;
+export {GraphQLCustomDirective, applySchemaCustomDirectives} from './custom';
 
-exports.GraphQLDateDirective = GraphQLDateDirective;
+export {
+  GraphQLDateDirective,
+  GraphQLTimeOffsetDirective,
+} from './directives/date';
 
-exports.GraphQLNumberDirective = GraphQLNumberDirective;
-exports.GraphQLCurrencyDirective = GraphQLCurrencyDirective;
+export {GraphQLNumberDirective} from './directives/number';
 
-exports.GraphQLLowerCaseDirective = GraphQLLowerCaseDirective;
-exports.GraphQLUpperCaseDirective = GraphQLUpperCaseDirective;
-exports.GraphQLCamelCaseDirective = GraphQLCamelCaseDirective;
-exports.GraphQLStartCaseDirective = GraphQLStartCaseDirective;
-exports.GraphQLCapitalizeDirective = GraphQLCapitalizeDirective;
-exports.GraphQLKebabCaseDirective = GraphQLKebabCaseDirective;
-exports.GraphQLTrimDirective = GraphQLTrimDirective;
-exports.GraphQLDefaultToDirective = GraphQLDefaultToDirective;
-exports.GraphQLToLowerDirective = GraphQLToLowerDirective;
-exports.GraphQLToUpperDirective = GraphQLToUpperDirective;
-exports.GraphQLTemplateDirective = GraphQLTemplateDirective;
-exports.GraphQLTimeOffsetDirective = GraphQLTimeOffsetDirective;
+export {GraphQLCurrencyDirective} from './directives/currency';
+
+export {
+  GraphQLLowerCaseDirective,
+  GraphQLUpperCaseDirective,
+  GraphQLCamelCaseDirective,
+  GraphQLStartCaseDirective,
+  GraphQLCapitalizeDirective,
+  GraphQLKebabCaseDirective,
+  GraphQLTrimDirective,
+  GraphQLDefaultToDirective,
+  GraphQLToLowerDirective,
+  GraphQLToUpperDirective,
+  GraphQLTemplateDirective,
+} from './directives/string';
+
+export default [
+  GraphQLDateDirective,
+  GraphQLTimeOffsetDirective,
+  GraphQLNumberDirective,
+  GraphQLCurrencyDirective,
+  GraphQLLowerCaseDirective,
+  GraphQLUpperCaseDirective,
+  GraphQLCamelCaseDirective,
+  GraphQLStartCaseDirective,
+  GraphQLCapitalizeDirective,
+  GraphQLKebabCaseDirective,
+  GraphQLTrimDirective,
+  GraphQLDefaultToDirective,
+  GraphQLToLowerDirective,
+  GraphQLToUpperDirective,
+  GraphQLTemplateDirective,
+]

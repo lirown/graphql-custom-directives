@@ -176,7 +176,7 @@ function wrapFieldsWithMiddleware(type, deepWrap = true, typeMet = {}, level = 1
  * create a new graphql custom directive which contain a resolve
  * function for altering the execution of the graphql
  */
-exports.GraphQLCustomDirective = function(config) {
+export const GraphQLCustomDirective = function(config) {
   const directive = new GraphQLDirective(config);
 
   if (config.resolve) {
@@ -189,7 +189,7 @@ exports.GraphQLCustomDirective = function(config) {
 /**
  * Apply custom directives support in the graphql schema
  */
-exports.applySchemaCustomDirectives = function(schema) {
+export const applySchemaCustomDirectives = function(schema) {
   if (!(schema instanceof GraphQLSchema)) {
     throw new Error('Schema must be instanceof GraphQLSchema');
   }

@@ -6,7 +6,7 @@ import numeral from 'numeral';
 
 const DEFAULT_CURRENCY_FORMAT = '$0,0';
 
-exports.GraphQLCurrencyDirective = new GraphQLCustomDirective({
+export const GraphQLCurrencyDirective = new GraphQLCustomDirective({
   name: 'currency',
   description: 'Format the currency value from resolving the field',
   locations: [DirectiveLocation.FIELD],

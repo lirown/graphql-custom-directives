@@ -7,7 +7,7 @@ const moment = require('moment');
 
 const DEFAULT_DATE_FORMAT = 'DD MMM YYYY HH:mm';
 
-exports.GraphQLDateDirective = new GraphQLCustomDirective({
+export const GraphQLDateDirective = new GraphQLCustomDirective({
   name: 'date',
   description: 'Format the date from resolving the field by moment module',
   locations: [DirectiveLocation.FIELD],
@@ -38,7 +38,7 @@ exports.GraphQLDateDirective = new GraphQLCustomDirective({
   },
 });
 
-exports.GraphQLTimeOffsetDirective = new GraphQLCustomDirective({
+export const GraphQLTimeOffsetDirective = new GraphQLCustomDirective({
   name: 'timeOffset',
   description: 'Add offset (in minutes) to a 13 digit unixtime',
   locations: [DirectiveLocation.FIELD],
