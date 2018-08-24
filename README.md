@@ -63,7 +63,7 @@ applySchemaCustomDirectives(schema);
 ### Available Directives
 
 ```javascript
-// Import Array pf All Directives
+// Import Array of All Directives
 import GraphQLCustomDirectives from 'graphql-custom-directives';
 
 // Import Individual Directives
