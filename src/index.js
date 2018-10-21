@@ -7,6 +7,8 @@ import {
 
 import {GraphQLNumberDirective} from './directives/number';
 
+import {GraphQLPhoneDirective} from './directives/phone';
+
 import {GraphQLCurrencyDirective} from './directives/currency';
 
 import {
@@ -43,3 +45,4 @@ exports.GraphQLToLowerDirective = GraphQLToLowerDirective;
 exports.GraphQLToUpperDirective = GraphQLToUpperDirective;
 exports.GraphQLTemplateDirective = GraphQLTemplateDirective;
 exports.GraphQLTimeOffsetDirective = GraphQLTimeOffsetDirective;
+exports.GraphQLPhoneDirective = GraphQLPhoneDirective;
