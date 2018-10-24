@@ -84,7 +84,8 @@ import {
   GraphQLDefaultToDirective,
   GraphQLToLowerDirective,
   GraphQLToUpperDirective,
-  GraphQLTemplateDirective
+  GraphQLTemplateDirective,
+  GraphQLPhoneDirective
 } from 'graphql-custom-directives';
 ```
 
@@ -251,6 +252,30 @@ Adding string directive to graphql query for formatting the result using [Lodash
   }
   # => { input: "FOO BAR FOO BAR" }
 ```
+
+### Phone formatting directives
+
+Adding phone directive to graphql query for formatting the result using [libphonenumber-js](https://github.com/catamphetamine/libphonenumber-js).
+
+- Using default international format:
+```javascript
+  query {
+    input(value: "+12133734253") @phone
+  }
+  // => { input: "+1 213 373 4253" }
+```
+- Using specific format:
+```javascript
+  query {
+    input(value: "+12133734253") @phone(as: "national")
+  }
+// => { input: "(213) 373-4253" }
+  query {
+    input(value: "+12133734253") @phone(as: "RFC3966")
+  }
+// => { input: "tel:+12133734253" } // URI format
+```
+
 
 ### License
 ```
