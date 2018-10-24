@@ -35,7 +35,8 @@
   "dependencies": {
     "moment": "^2.22.2",
     "numeral": "^2.0.6",
-    "lodash": "^4.17.5"
+    "lodash": "^4.17.5",
+    "libphonenumber-js": "^1.6.4"
   },
   "peerDependencies": {
     "graphql": "*"
