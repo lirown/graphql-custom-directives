@@ -55,6 +55,14 @@ describe('directives/currency', () => {
     testEqual({directives, query, expected, done});
   });
 
+  it('expected directive to alter execution of graphql and result international as lowerCase formatted phone', done => {
+    const query = `{ value(input: "+12133734253") @phone(as: "international") }`,
+      directives = [GraphQLPhoneDirective],
+      expected = {value: '+1 213 373 4253'};
+
+    testEqual({directives, query, expected, done});
+  });
+
   it('expected directive to alter execution of graphql and result uri formatted phone', done => {
     const query = `{ value(input: "+12133734253") @phone(as: "RFC3966") }`,
       directives = [GraphQLPhoneDirective],
