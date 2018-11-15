@@ -55,4 +55,12 @@ describe('directives/currency', () => {
 
     testEqual({directives, query, expected, done});
   });
+
+  it('expected directive to use the supplied currency symbol', done => {
+    const query = `{ value(input: "10") @currency(as:"0,0.00", currencySymbol: "£") }`,
+      directives = [GraphQLCurrencyDirective],
+      expected = {value: '£10.00'};
+
+    testEqual({directives, query, expected, done});
+  });
 });

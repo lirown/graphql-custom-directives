@@ -15,13 +15,17 @@ exports.GraphQLCurrencyDirective = new GraphQLCustomDirective({
       type: GraphQLString,
       description: 'A currency format given by numeral module',
     },
+    currencySymbol: {
+      type: GraphQLString,
+      description: 'A currency symbol to attach to the output (Numeral supports only one currency at a time, so this is an override)'
+    }
   },
-  resolve(resolve, source, {as}) {
+  resolve(resolve, source, {as, currencySymbol = ''}) {
     return resolve().then(input => {
       const format = as || DEFAULT_CURRENCY_FORMAT;
 
       if (format.indexOf('0') !== -1 && !Number.isNaN(Number(input))) {
-        return numeral(input).format(format) || input;
+        return `${currencySymbol}${numeral(input).format(format) || input}`;
       }
 
       return input;
