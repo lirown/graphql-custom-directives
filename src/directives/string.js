@@ -46,54 +46,54 @@ function createCustomDirectiveByMethod(name, method) {
   });
 }
 
-exports.GraphQLLowerCaseDirective = createCustomDirectiveByMethod(
+export const GraphQLLowerCaseDirective = createCustomDirectiveByMethod(
   'lowerCase',
   lowerCase,
 );
 
-exports.GraphQLUpperCaseDirective = createCustomDirectiveByMethod(
+export const GraphQLUpperCaseDirective = createCustomDirectiveByMethod(
   'upperCase',
   upperCase,
 );
 
-exports.GraphQLCamelCaseDirective = createCustomDirectiveByMethod(
+export const GraphQLCamelCaseDirective = createCustomDirectiveByMethod(
   'camelCase',
   camelCase,
 );
 
-exports.GraphQLStartCaseDirective = createCustomDirectiveByMethod(
+export const GraphQLStartCaseDirective = createCustomDirectiveByMethod(
   'startCase',
   startCase,
 );
 
-exports.GraphQLCapitalizeDirective = createCustomDirectiveByMethod(
+export const GraphQLCapitalizeDirective = createCustomDirectiveByMethod(
   'capitalize',
   capitalize,
 );
 
-exports.GraphQLKebabCaseDirective = createCustomDirectiveByMethod(
+export const GraphQLKebabCaseDirective = createCustomDirectiveByMethod(
   'kebabCase',
   kebabCase,
 );
 
-exports.GraphQLTrimDirective = createCustomDirectiveByMethod('trim', trim);
+export const GraphQLTrimDirective = createCustomDirectiveByMethod('trim', trim);
 
-exports.GraphQLDefaultToDirective = createCustomDirectiveByMethod(
+export const GraphQLDefaultToDirective = createCustomDirectiveByMethod(
   'default',
   defaultTo,
 );
 
-exports.GraphQLToLowerDirective = createCustomDirectiveByMethod(
+export const GraphQLToLowerDirective = createCustomDirectiveByMethod(
   'toLower',
   toLower,
 );
 
-exports.GraphQLToUpperDirective = createCustomDirectiveByMethod(
+export const GraphQLToUpperDirective = createCustomDirectiveByMethod(
   'toUpper',
   toUpper,
 );
 
-exports.GraphQLTemplateDirective = new GraphQLCustomDirective({
+export const GraphQLTemplateDirective = new GraphQLCustomDirective({
   name: 'template',
   description: `Format the input as using lodash template`,
   locations: [DirectiveLocation.FIELD],

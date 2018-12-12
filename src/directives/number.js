@@ -6,7 +6,7 @@ import numeral from 'numeral';
 
 const DEFAULT_NUMBER_FORMAT = '0,0';
 
-exports.GraphQLNumberDirective = new GraphQLCustomDirective({
+export const GraphQLNumberDirective = new GraphQLCustomDirective({
   name: 'number',
   description: 'Format the number value from resolving the field',
   locations: [DirectiveLocation.FIELD],

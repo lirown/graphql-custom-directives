@@ -1,15 +1,15 @@
-import {GraphQLCustomDirective, applySchemaCustomDirectives} from './custom';
+// Import all directives and utilities
 
 import {
   GraphQLDateDirective,
   GraphQLTimeOffsetDirective,
 } from './directives/date';
 
-import {GraphQLNumberDirective} from './directives/number';
+import { GraphQLNumberDirective } from './directives/number';
 
-import {GraphQLPhoneDirective} from './directives/phone';
+import { GraphQLPhoneDirective } from './directives/phone';
 
-import {GraphQLCurrencyDirective} from './directives/currency';
+import { GraphQLCurrencyDirective } from './directives/currency';
 
 import {
   GraphQLLowerCaseDirective,
@@ -25,24 +25,60 @@ import {
   GraphQLTemplateDirective,
 } from './directives/string';
 
-exports.GraphQLCustomDirective = GraphQLCustomDirective;
-exports.applySchemaCustomDirectives = applySchemaCustomDirectives;
+// Export all directives in an array as the default export
+// Usage:
+// CJS: const GraphQLCustomDirectives = require("graphql-custom-directives");
+// or
+// ESM: import GraphQLCustomDirectives from "graphql-custom-directives";
 
-exports.GraphQLDateDirective = GraphQLDateDirective;
+export default [
+  GraphQLDateDirective,
+  GraphQLTimeOffsetDirective,
+  GraphQLNumberDirective,
+  GraphQLCurrencyDirective,
+  GraphQLLowerCaseDirective,
+  GraphQLUpperCaseDirective,
+  GraphQLCamelCaseDirective,
+  GraphQLStartCaseDirective,
+  GraphQLCapitalizeDirective,
+  GraphQLKebabCaseDirective,
+  GraphQLTrimDirective,
+  GraphQLDefaultToDirective,
+  GraphQLToLowerDirective,
+  GraphQLToUpperDirective,
+  GraphQLTemplateDirective,
+  GraphQLPhoneDirective
+]
 
-exports.GraphQLNumberDirective = GraphQLNumberDirective;
-exports.GraphQLCurrencyDirective = GraphQLCurrencyDirective;
+// Export Directives Individually (same as exports. syntax)
+// Usage:
+// CJS: const { GraphQLDateDirective, applySchemaCustomDirectives } = require("graphql-custom-directives");
+// or
+// ESM: import { GraphQLDateDirective, applySchemaCustomDirectives } from "graphql-custom-directives";
 
-exports.GraphQLLowerCaseDirective = GraphQLLowerCaseDirective;
-exports.GraphQLUpperCaseDirective = GraphQLUpperCaseDirective;
-exports.GraphQLCamelCaseDirective = GraphQLCamelCaseDirective;
-exports.GraphQLStartCaseDirective = GraphQLStartCaseDirective;
-exports.GraphQLCapitalizeDirective = GraphQLCapitalizeDirective;
-exports.GraphQLKebabCaseDirective = GraphQLKebabCaseDirective;
-exports.GraphQLTrimDirective = GraphQLTrimDirective;
-exports.GraphQLDefaultToDirective = GraphQLDefaultToDirective;
-exports.GraphQLToLowerDirective = GraphQLToLowerDirective;
-exports.GraphQLToUpperDirective = GraphQLToUpperDirective;
-exports.GraphQLTemplateDirective = GraphQLTemplateDirective;
-exports.GraphQLTimeOffsetDirective = GraphQLTimeOffsetDirective;
-exports.GraphQLPhoneDirective = GraphQLPhoneDirective;
+export { GraphQLCustomDirective, applySchemaCustomDirectives } from './custom';
+
+export {
+  GraphQLDateDirective,
+  GraphQLTimeOffsetDirective,
+} from './directives/date';
+
+export { GraphQLNumberDirective } from './directives/number';
+
+export { GraphQLPhoneDirective } from './directives/phone';
+
+export { GraphQLCurrencyDirective } from './directives/currency';
+
+export {
+  GraphQLLowerCaseDirective,
+  GraphQLUpperCaseDirective,
+  GraphQLCamelCaseDirective,
+  GraphQLStartCaseDirective,
+  GraphQLCapitalizeDirective,
+  GraphQLKebabCaseDirective,
+  GraphQLTrimDirective,
+  GraphQLDefaultToDirective,
+  GraphQLToLowerDirective,
+  GraphQLToUpperDirective,
+  GraphQLTemplateDirective,
+} from './directives/string';

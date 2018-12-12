@@ -1,4 +1,4 @@
-import {
+import GraphQLCustomDirectives, {
   GraphQLCustomDirective,
   applySchemaCustomDirectives,
 } from '../src/index';
@@ -12,6 +12,7 @@ import {
   buildSchema,
 } from 'graphql';
 import {DirectiveLocation} from 'graphql/language/directiveLocation';
+import {GraphQLDirective} from 'graphql/type/directives';
 import {
   createGraphQLQueryDeepObject,
   testEqual,
@@ -26,6 +27,14 @@ let GraphQLTestDirective,
   GraphQLTestDirectiveCatch,
   errors,
   schema;
+
+describe('GraphQLCustomDirectives', () => {
+  it(`exports an array containing all directives`, () => {
+    for (const directive of GraphQLCustomDirectives) {
+      expect(directive).to.be.an.instanceof(GraphQLDirective);
+    }
+  })
+})
 
 describe('GraphQLCustomDirective', () => {
   before(() => {
@@ -183,7 +192,7 @@ describe('applySchemaCustomDirectives', () => {
 
     expect(applySchemaCustomDirectives(executionSchema)).to.eql(true);
   });
-  
+
   it('expected to apply custom directives to schema with recursive nested object', () => {
     let schema = `type Test { input: String!, output: String, children:[Test] } type Query { test1: Test, test2: [Test] } schema { query: Query }`;
     let executionSchema = buildSchema(schema);

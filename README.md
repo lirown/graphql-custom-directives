@@ -18,24 +18,7 @@ npm install --save graphql-custom-directives
 
 ### Usage
 ```javascript
-import {
-  GraphQLDateDirective,
-  GraphQLNumberDirective,
-  GraphQLCurrencyDirective,
-  GraphQLLowerCaseDirective,
-  GraphQLUpperCaseDirective,
-  GraphQLCamelCaseDirective,
-  GraphQLStartCaseDirective,
-  GraphQLCapitalizeDirective,
-  GraphQLKebabCaseDirective,
-  GraphQLTrimDirective,
-  GraphQLDefaultToDirective,
-  GraphQLToLowerDirective,
-  GraphQLToUpperDirective,
-  GraphQLTemplateDirective,
-  GraphQLPhoneDirective,
-  applySchemaCustomDirectives,
-} from 'graphql-custom-directives';
+import GraphQLCustomDirectives, { applySchemaCustomDirectives } from 'graphql-custom-directives';
 
 const query = new GraphQLObjectType({
    name: 'Query',
@@ -53,23 +36,7 @@ const query = new GraphQLObjectType({
 });
 
 const schema = new GraphQLSchema({
-  directives: [
-    GraphQLDateDirective,
-    GraphQLNumberDirective,
-    GraphQLCurrencyDirective,
-    GraphQLLowerCaseDirective,
-    GraphQLUpperCaseDirective,
-    GraphQLCamelCaseDirective,
-    GraphQLStartCaseDirective,
-    GraphQLCapitalizeDirective,
-    GraphQLKebabCaseDirective,
-    GraphQLTrimDirective,
-    GraphQLDefaultToDirective,
-    GraphQLToLowerDirective,
-    GraphQLToUpperDirective,
-    GraphQLPhoneDirective,
-    GraphQLTemplateDirective
-  ],
+  directives: GraphQLCustomDirectives,
   query
 });
 
@@ -81,16 +48,32 @@ graphql(schema, `{ input(value: "test") @upperCase }`)
   });
 ```
 
-### Using with apollo
-
-is also possible
+### Usage with apollo-server / graphql-tools
 
 ```javascript
 import { makeExecutableSchema } from 'graphql-tools';
+import GraphQLCustomDirectives, { applySchemaCustomDirectives } from 'graphql-custom-directives';
+
+let schema = makeExecutableSchema(...);
+
+schema._directives.push(...GraphQLCustomDirectives);
+applySchemaCustomDirectives(schema);
+```
+
+### Available Directives
+
+```javascript
+// Import Array of All Directives
+import GraphQLCustomDirectives from 'graphql-custom-directives';
+
+// Import Individual Directives
 import {
+  // Date Formatting
   GraphQLDateDirective,
+  // Number Formatting
   GraphQLNumberDirective,
   GraphQLCurrencyDirective,
+  // String Formatting
   GraphQLLowerCaseDirective,
   GraphQLUpperCaseDirective,
   GraphQLCamelCaseDirective,
@@ -103,32 +86,7 @@ import {
   GraphQLToUpperDirective,
   GraphQLTemplateDirective,
   GraphQLPhoneDirective
-  applySchemaCustomDirectives
 } from 'graphql-custom-directives';
-
-let directives = [
-    GraphQLDateDirective,
-    GraphQLNumberDirective,
-    GraphQLCurrencyDirective,
-    GraphQLLowerCaseDirective,
-    GraphQLUpperCaseDirective,
-    GraphQLCamelCaseDirective,
-    GraphQLStartCaseDirective,
-    GraphQLCapitalizeDirective,
-    GraphQLKebabCaseDirective,
-    GraphQLTrimDirective,
-    GraphQLDefaultToDirective,
-    GraphQLToLowerDirective,
-    GraphQLToUpperDirective,
-    GraphQLTemplateDirective,
-    GraphQLPhoneDirective
-  ]
-
-let schema = makeExecutableSchema(...);
-
-schema._directives.push.apply(schema._directives, directives);
-applySchemaCustomDirectives(schema);
-
 ```
 
 ### Date formatting directives
@@ -136,25 +94,25 @@ applySchemaCustomDirectives(schema);
 Adding date directive to graphql query for formatting the result using [Moment](https://github.com/moment/moment).
 
 - Using default date format:
-```javascript
+```graphql
   query {
     input(value: "2016-01-01T00:00:00") @date
   }
-  // => { input: "01 Jan 2016 00:00" }
+  # => { input: "01 Jan 2016 00:00" }
 ```
 - Using specific moment format:
-```javascript
+```graphql
   query {
     input(value: "2016-01-01T00:00:00") @date(as:"YYYY")
   }
-// => { input: "2016" }
+  # => { input: "2016" }
 ```
 - Using days ago format
-```javascript
+```graphql
   query {
     input(value: "${(new Date).toISOString()}") @date(as:"days ago")
   }
-  // => { input: "0 days ago" }
+  # => { input: "0 days ago" }
 ```
 
 ### Number formatting directives
@@ -162,25 +120,25 @@ Adding date directive to graphql query for formatting the result using [Moment](
 Adding number directive to graphql query for formatting the result using [Numeral-js](https://github.com/adamwdraper/Numeral-js).
 
 - Using default format:
-```javascript
+```graphql
   query {
     input(value: "1500.404") @number
   }
-  // => { input: "1,500" }
+  # => { input: "1,500" }
 ```
 - Using specific numeral format:
-```javascript
+```graphql
   query {
     input(value: "-1500.404") @number(as:"(0,0.00)")
   }
-  // => { input: "(1,500.40)" }
+  # => { input: "(1,500.40)" }
 ```
 -  Using default currency format:
-```javascript
+```graphql
   query {
     input(value: "1500") @currency
   }
-  // => { input: "$1,500)" }
+  # => { input: "$1,500)" }
 ```
 
 ### String formatting directives
@@ -189,110 +147,110 @@ Adding string directive to graphql query for formatting the result using [Lodash
 
 - Using lowerCase directive:
 
-```javascript
+```graphql
   query {
     input(value: "FOO BAR") @lowerCase
   }
-  // => { input: "foo bar" }
+  # => { input: "foo bar" }
 ```
 
 - Using upperCase directive:
 
-```javascript
+```graphql
   query {
     input(value: "foo bar") @upperCase
   }
-  // => { input: "FOO BAR" }
+  # => { input: "FOO BAR" }
 ```
 
 - Using camelCase directive:
 
-```javascript
+```graphql
   query {
     input(value: "foo bar") @camelCase
   }
-  // => { input: "fooBar" }
+  # => { input: "fooBar" }
 ```
 
 - Using startCase directive:
 
-```javascript
+```graphql
   query {
     input(value: "foo bar") @startCase
   }
-  // => { input: "Foo Bar" }
+  # => { input: "Foo Bar" }
 ```
 
 - Using capitalize directive:
 
-```javascript
+```graphql
   query {
     input(value: "foo bar") @capitalize
   }
-  // => { input: "Foo var" }
+  # => { input: "Foo var" }
 ```
 
 - Using kebabCase directive:
 
-```javascript
+```graphql
   query {
     input(value: "foo bar") @kebabCase
   }
-  // => { input: "foo-bar" }
+  # => { input: "foo-bar" }
 ```
 
 - Using trim directive:
 
-```javascript
+```graphql
   query {
     input(value: "  foo bar  ") @trim
   }
-  // => { input: "foo bar" }
+  # => { input: "foo bar" }
 ```
 
 - Using default directive:
 
-```javascript
+```graphql
   query {
     input @default(to:"N/A")
   }
-  // => { input: "N/A" }
+  # => { input: "N/A" }
 ```
 
 - Using toLower directive:
 
-```javascript
+```graphql
   query {
     input(value: "FOO BAR") @toLower
   }
-  // => { input: "foo bar" }
+  # => { input: "foo bar" }
 ```
 
 - Using toUpper directive:
 
-```javascript
+```graphql
   query {
     input(value: "foo bar") @toUpper
   }
-  // => { input: "FOO BAR" }
+  # => { input: "FOO BAR" }
 ```
 
 - Using template directive:
 
-```javascript
+```graphql
   query {
     input(value: "foo bar") @template(as:"${input} ${toUpper(input)}")
   }
-  // => { input: "foo bar FOO BAR" }
+  # => { input: "foo bar FOO BAR" }
 ```
 
 - Using template together with trim and toUpper directives:
 
-```javascript
+```graphql
   query {
     input(value: "  foo bar   ") @trim @template(as:"${input} ${input}") @toUpper
   }
-  // => { input: "FOO BAR FOO BAR" }
+  # => { input: "FOO BAR FOO BAR" }
 ```
 
 ### Phone formatting directives
