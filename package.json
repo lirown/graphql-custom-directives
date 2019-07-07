@@ -15,7 +15,9 @@
     "test": "mocha",
     "test-watch": "mocha --watch",
     "update-D": "npm install --save-dev babel-cli@latest babel-preset-es2015@latest babel-preset-stage-0@latest babel-register@latest chai@latest chai-as-promised@latest coveralls@latest graphql@latest mocha@latest nyc@latest",
-    "watch": "npm run build-watch & npm run test-watch"
+    "watch": "npm run build-watch & npm run test-watch",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -36,7 +38,8 @@
     "moment": "^2.22.2",
     "numeral": "^2.0.6",
     "lodash": "^4.17.5",
-    "libphonenumber-js": "^1.6.4"
+    "libphonenumber-js": "^1.6.4",
+    "snyk": "^1.192.3"
   },
   "peerDependencies": {
     "graphql": "*"
@@ -55,5 +58,6 @@
     "mocha": "^3.1.2",
     "nyc": "^8.3.1",
     "prettier": "^1.13.5"
-  }
+  },
+  "snyk": true
 }
