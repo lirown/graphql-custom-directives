@@ -16,7 +16,7 @@ const resolve = (source, {input, id}) =>
     setTimeout(() => resolve(`${id}-${input * 10}`), 2000);
   });
 
-describe.only('directives/cache', function() {
+describe('directives/cache', function() {
   this.timeout(10000);
   it('expected to have name property', () => {
     expect(GraphQLCacheDirective.name).to.a('string');
