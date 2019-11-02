@@ -1,4 +1,4 @@
-import {
+const {
   GraphQLString,
   GraphQLSchema,
   GraphQLObjectType,
@@ -6,10 +6,10 @@ import {
   GraphQLList,
   graphql,
   buildSchema,
-} from 'graphql';
-import {applySchemaCustomDirectives} from '../src/index';
+} = require('graphql');
+const {applySchemaCustomDirectives} = require('../dist/index');
 
-import {expect} from 'chai';
+const {expect} = require('chai');
 
 const DEFAULT_TEST_SCHEMA = `type Query { value(input: String): String } schema { query: Query }`;
 
@@ -18,6 +18,7 @@ const _runQuery = function({
   query,
   schema,
   input,
+  resolve,
   passServer = false,
   done,
   context,
@@ -29,11 +30,16 @@ const _runQuery = function({
       source,
       {input, context},
     ) => input;
+
     if (passServer) {
       executionSchema._queryType._fields.value.directives = {
         duplicate: {by: 2},
       };
     }
+  }
+
+  if (resolve) {
+    executionSchema._queryType._fields.value.resolve = resolve;
   }
 
   if (directives)
@@ -43,13 +49,16 @@ const _runQuery = function({
 
   applySchemaCustomDirectives(executionSchema);
 
-  return graphql(executionSchema, query, input, context);
+  return graphql(executionSchema, query, input, {
+    req: {body: {query, variables: {}}}
+  });
 };
 
 exports.testEqual = function({
   directives,
   query,
   schema,
+  resolve,
   input,
   passServer = false,
   expected,
@@ -60,6 +69,7 @@ exports.testEqual = function({
     directives,
     query,
     schema,
+    resolve,
     input,
     passServer,
     done,
@@ -67,11 +77,18 @@ exports.testEqual = function({
   })
     .then(({data, errors}) => {
       if (errors) {
+        console.error(errors);
         throw new Error(errors);
       }
       expect(data).to.eql(expected);
+      return data;
     })
-    .then(done, done);
+    .then(data => {
+      if (done) {
+        done();
+      }
+      return data;
+    }, done);
 };
 
 exports.runQuery = function({
