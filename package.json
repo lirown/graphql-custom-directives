@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/lirown/graphql-custom-directives#readme",
   "dependencies": {
-    "libphonenumber-js": "^1.7.26",
+    "libphonenumber-js": "1.9.53",
     "lodash": "^4.17.5",
     "moment": "^2.22.2",
     "lru-cache": "4.0.1",
