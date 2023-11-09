@@ -20,10 +20,13 @@ import {
 } from './utils';
 
 import {expect} from 'chai';
+import { GraphQLJSON }from 'graphql-type-json';
+
 
 let GraphQLTestDirective,
   GraphQLTestDirectiveTrows,
   GraphQLTestDirectiveCatch,
+  GraphQLTestDirectiveObjectParams,
   errors,
   schema;
 
@@ -78,6 +81,23 @@ describe('GraphQLCustomDirective', () => {
           .catch(e => {
             errors.push(e);
           });
+      },
+    });
+
+    GraphQLTestDirectiveObjectParams = new GraphQLCustomDirective({
+      name: 'test',
+      description: 'return params json as string',
+      locations: [DirectiveLocation.FIELD],
+      args: {
+        myObject: {
+          type: GraphQLJSON,
+          description: 'the object to return as string',
+        },
+      },
+      resolve: function(resolve, source, {myObject}, schema, info) {
+        return resolve().then(result => {
+          return myObject;
+        });
       },
     });
 
@@ -168,6 +188,19 @@ describe('GraphQLCustomDirective', () => {
         done();
       });
   });
+
+  it('expected directive json object params should be parsed to json object', done => {
+    const test = '"{\\"tesObj\\":{\\"key1\\":1,\\"key2\\":\\"1,2\\"}}"'
+    const query = `{ value @test(myObject:${test}) }`,
+        schema = `type Query { value: String } schema { query: Query }`,
+        input = {value: 'test'},
+        directives = [GraphQLTestDirectiveObjectParams],
+        expected = {value: '{"tesObj":{"key1":1,"key2":"1,2"}}'},
+        expectedParsedObj = { tesObj: { key1: 1, key2: '1,2' } };
+    testEqual({directives, query, schema, input, expected});
+    expect(JSON.parse(expected.value)).to.eql(expectedParsedObj);
+    done();
+  })
 });
 
 describe('applySchemaCustomDirectives', () => {
