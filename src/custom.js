@@ -160,9 +160,10 @@ function wrapFieldsWithMiddleware(type, deepWrap = true, typeMet = {}, level = 1
     let field = fields[label];
     if (field && !typeMet[field.type.name]) {
       if (!!field && typeof field == 'object') {
+        const directives = field.directives || (field.extensions && field.extensions.directives);
         field.resolve = resolveMiddlewareWrapper(
           field.resolve,
-          field.directives,
+            directives,
         );
         if (field.type._fields && deepWrap) {
           wrapFieldsWithMiddleware(field.type, deepWrap, typeMet, level);
