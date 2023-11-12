@@ -48,10 +48,10 @@ const _runQuery = function({
     );
 
   applySchemaCustomDirectives(executionSchema);
-
-  return graphql(executionSchema, query, input, {
+  const contextValue = context || {
     req: {body: {query, variables: {}}}
-  });
+  };
+  return graphql(executionSchema, query, input, contextValue);
 };
 
 exports.testEqual = function({
