@@ -56,7 +56,16 @@ function parseSchemaDirectives(directives) {
       args = '';
 
     Object.keys(directives[directiveName]).map(key => {
-      argsList.push(`${key}:"${directives[directiveName][key]}"`);
+      if (
+          typeof directives[directiveName][key] === 'object' &&
+          !Array.isArray(directives[directiveName][key]) &&
+          directives[directiveName][key] !== null
+      ) {
+        const objectAsEscapedString = JSON.stringify(JSON.stringify(directives[directiveName][key]));
+        argsList.push(key + ':' + objectAsEscapedString);
+      } else {
+        argsList.push(`${key}:"${directives[directiveName][key]}"`);
+      }
     });
 
     if (argsList.length > 0) {
