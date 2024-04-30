@@ -34,7 +34,11 @@ function resolveWithDirective(resolve, source, directive, context, info) {
     args[arg.name.value] = arg.value.value;
   }
 
-  return directiveConfig.resolve(resolve, source, args, context, info);
+  if (directiveConfig && directiveConfig.resolve) {
+    return directiveConfig.resolve(resolve, source, args, context, info);
+  }
+
+  return resolve();
 }
 
 /**
